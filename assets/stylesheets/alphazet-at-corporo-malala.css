@@ -11,7 +11,7 @@ Written for -- www.alphazet.corporomalala.com
 /*=== CUSTOM ===*/
 /*== [reset]==*/
 	/*** RESET ***/
-		*{margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-family:inherit;vertical-align:baseline;font-size:1em;font-style:normal;-webkit-font-smoothing:antialiased;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-o-box-sizing:border-box;}*, *::before, *::after{-webkit-transition:.5s;-box-transition:.5s;-o-transition:.5s;transition:.5s;}:hover,:active,:focus{outline:0;}html, body{min-height:100%;font-family:sans-serif;font-size:1rem;position:relative;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;}body{margin:0;padding:0;line-height:1;}article, footer, header, section{display:block;}ol, ul{list-style:none;}a{display:inline-block;text-decoration:none;background-color:transparent;color:initial;}a img{border:none;}a, button, input[type="submit"]{cursor:pointer !important;}img{width:100%;height:auto;}img::selection{fill:none;color:none;display:none;background:none;}input[type="text"], input[type="number"], input[type="search"], input[type="email"], textarea{text-align:left;max-width:100%;}input[type="checkbox"], input[type="radio"]{display:none;}input[type="submit"]{background-color:transparent;}label{display:inline;}textarea{resize:vertical;}
+		*{margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-family:inherit;vertical-align:baseline;font-size:1em;font-style:normal;-webkit-font-smoothing:antialiased;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-o-box-sizing:border-box;}*, *::before, *::after{-webkit-transition:.5s;-box-transition:.5s;-o-transition:.5s;transition:.5s;}:hover,:active,:focus{outline:0;}html, body{min-height:100%;font-family:sans-serif;font-size:1rem;position:relative;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;}body{margin:0;padding:0;line-height:1;}article, footer, header, section{display:block;}ol, ul{list-style:none;}a{display:inline-block;text-decoration:none;background-color:transparent;color:initial;}a img{border:none;}a, button, input[type="submit"]{cursor:pointer !important;}button{// background-color:transparent;}img{width:100%;height:auto;}img::selection{fill:none;color:none;display:none;background:none;}input[type="text"], input[type="number"], input[type="search"], input[type="email"], textarea{text-align:left;max-width:100%;}input[type="checkbox"], input[type="radio"]{display:none;}input[type="submit"]{background-color:transparent;}label{display:inline;}textarea{resize:vertical;}
 	/*** END RESET ***/
 		/*== [Alphazet @ Corporo Malala]==*/
 	/*** Z-INDEXES ***/
@@ -19,36 +19,36 @@ Written for -- www.alphazet.corporomalala.com
 	/*** END Z-INDEXES ***/
 		
 	/*** COLORS ***/
-		.website-body,.website-body_header-title{color:rgb(255, 255, 255);}
+		.website{background-color:rgb(74, 51, 45) !important;}.website-body_footer-checkbox:checked ~ .website-body_footer-front .website-body_footer-front-text{color:rgb(0, 0, 0);}.website-body_footer-front-text{// color:rgb(0, 0, 0);}.website-body_footer-front-button:hover,.website-body_footer-front-button:active,.website-body_footer-front-button:focus,.website-body_footer-checkbox:checked ~ .website-body_footer-front .website-body_footer-front-button{background-color:rgb(255, 255, 255);}.website-body,.website-body_header-title,.js-body[gameLanguageAttribute="afrikaans"] .website-body_BUTTON.is-lingala:hover,.js-body[gameLanguageAttribute="lingala"] .website-body_BUTTON.is-afrikaans:hover{color:rgb(255, 255, 255);}.website-body_footer-front-button:hover ~ .website-body_footer-front-text,.website-body_footer-front-button:hover ~ .website-body_footer-front-text,.website-body_footer-front-button:hover ~ .website-body_footer-front-text{// color:rgb(255, 255, 255);}.js-body[gameLanguageAttribute="afrikaans"] .website-body_BUTTON.is-afrikaans,.js-body[gameLanguageAttribute="lingala"] .website-body_BUTTON.is-lingala{background-color:rgba(255, 255, 255, 0.5);}.js-body[gameLanguageAttribute="afrikaans"] .website-body_BUTTON.is-lingala,.js-body[gameLanguageAttribute="lingala"] .website-body_BUTTON.is-afrikaans{background-color:transparent;}
 	/*** END COLORS ***/
 		
 	/*** FONTS ***/
-		@font-face{font-family:ALPHABETH;src:url("https://alphazet.corporomalala.com/assets/fonts/ALPHABETH.ttf");}body{font-family:ALPHABETH, 'Arial Black', sans-serif;}.website-body_header-title{font-size:5em;}.website-body_header-description{font-size:2em;}.d-rectangularSVG text{font-size:1em;}span,p,button{font-weight:bold;}
+		@font-face{font-family:ALPHABETH;src:url("https://alphazet.corporomalala.com/assets/fonts/ALPHABETH.ttf");/*src:url("https://alphazet.corporomalala.com/assets/fonts/ALPHABETH.eot") format("embedded-opentype"),url("https://alphazet.corporomalala.com/assets/fonts/ALPHABETH.woff2") format("woff2"),url("https://alphazet.corporomalala.com/assets/fonts/ALPHABETH.woff") format("woff"),url("https://alphazet.corporomalala.com/assets/fonts/ALPHABETH.ttf") format("trutype"),url("https://alphazet.corporomalala.com/assets/fonts/ALPHABETH.svg") format("svg");*/}body{font-family:ALPHABETH, 'Arial Black', sans-serif;}.d-rectangularSVG text{font-size:1em;}.game,.website{text-align:center;}button,.game span,.game p,.website-body_header-description{font-weight:bold;}.website-body_footer-back a{text-decoration:underline;}.website-body_footer-front-button{text-indent:-9999px;}
 	/*** END FONTS ***/
 		
 	/*** MEDIA ***/
-		.website{background:url("https://alphazet.corporomalala.com/assets/images/background9.png") no-repeat center center;}.website{background-size:cover !important;}
+		.website{background:url("https://alphazet.corporomalala.com/assets/images/background9.png") no-repeat center center;}.website-body_footer-front-button-wrap{background:url("https://alphazet.corporomalala.com/assets/images/icon_info_white.png") no-repeat center center;}.website-body_footer-front-button:hover .website-body_footer-front-button-wrap,.website-body_footer-front-button:active .website-body_footer-front-button-wrap,.website-body_footer-front-button:focus .website-body_footer-front-button-wrap{background:url("https://alphazet.corporomalala.com/assets/images/icon_info_black.png") no-repeat center center;}.website-body_footer-checkbox:checked ~ .website-body_footer-front .website-body_footer-front-button-wrap{background:url("https://alphazet.corporomalala.com/assets/images/icon_close.png") no-repeat center center;}.website,.website-body_footer-front-button-wrap{background-size:cover !important;}
 	/*** END MEDIA ***/
 		
 	/*** COMPONENTS ***/
-		html{min-width:15rem;min-height:34rem;}body, html{width:100%;height:100%;}body{display:table;}.website,.game{display:table-cell;vertical-align:middle;text-align:center;width:50%;height:100%;//border:1px solid red;}.website-body{padding:1em;}.website-body_header-description{//width:70%;}.website-body_footer-img{width:1.5em;position:relative;animation:animate-arrow 5s infinite;}.website-body_BUTTON{padding:.25rem .5rem;background-color:transparent;}
+		html, body{width:100%;height:100%;overflow-y:hidden;}.container{display:table;height:100%;//border:1px solid red;}.game,.website{display:table-cell;vertical-align:middle;width:50%;height:100%;//border:1px solid green;}.website{position:relative;overflow:hidden;}.website-body{padding:1em;}.website-body_header{//border:1px solid red;}.website-body_header-title{//display:none;}.website-body_BUTTON{padding:.25em .5em;}.website-body_swipe-img{width:1.5em;position:relative;animation:animate-arrow 5s infinite;}.website-body_footer{position:absolute;bottom:0;left:0;width:100%;}.website-body_footer-front{padding:1em;}.website-body_footer-front-button{display:inline-block;width:1.75em;height:1.5em;margin:.25em;padding:.25em .5em;}.website-body_footer-front-button-wrap{width:100%;height:100%;}.website-body_footer-back,.website-body_footer-back-wrap{//display:block;//padding:.5em;}.website-body_footer-back{position:absolute;left:0;right:0;bottom:100%;width:90%;min-height:100%;height:250%;padding:1em .5em;margin:0 auto;overflow:hidden;background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);}.website-body_footer-back-wrap{width:100%;height:100%;padding:0 1em;overflow:auto;}.website-body_footer-back-p{margin-bottom:1.5em;}.website-body_footer-back-p:last-child{margin:0;}
 	/*** END COMPONENTS ***/
 		
-	/*** MEDIA QUERIES ***/
-		@media screen and (max-width:50em){body, html{font-size:14px;}body{width:200%;}}@media screen and (min-width:50em){body, html{font-size:16px;}.website-body_footer{display:none;}}
-	/*** END MEDIA QUERIES ***/
+	/*** INTERACTIVITY ***/
+		.website-body_footer-front-button{cursor:pointer;}.website-body_footer-back{display:none;}.website-body_footer-checkbox:checked ~ .website-body_footer-back{display:block;}
+	/*** END INTERACTIVITY ***/
 		
-	/*** DECORATION ***/
-		svg,svg path{width:100% !important;height:100% !important;}.d-rectangularSVG{position:absolute;top:0;left:0;//display:none;//height:95vh;overflow:visible;}.d-scrollContainer{scroll-snap-type:x mandatory;scroll-snap-points-x:repeat(50%);}.d-scrollContainer-snap{scroll-snap-align:start;}
-	/*** END DECORATION ***/
+	/*** MEDIA QUERIES ***/
+		@media screen and (max-width:50em){html, body{font-size:14px;}.website-body_header-title{font-size:5em;}.website-body_header-description{font-size:2em;}.container{width:200%;}}@media screen and (min-width:50em){html, body{font-size:16px;}.website-body_header-title{font-size:5em;}.website-body_header-description{font-size:2em;}.website-body_swipe{display:none;}}
+	/*** END MEDIA QUERIES ***/
 		
 	/*** ANIMATIONS ***/
 		@keyframes animate-arrow{0%, 33%{left:-1em;}33%, 66%{left:1em;}66%, 100%{left:-1em;}}
 	/*** END ANIMATIONS ***/
 		
-	/*** BETAs ***/
-		
-	/*** END BETAs ***/
+	/*** DECORATION ***/
+		svg,svg path{width:100% !important;height:100% !important;}.d-rectangularSVG{position:absolute;top:0;left:0;overflow:visible;}.d-scrollContainer{scroll-snap-type:x mandatory;scroll-snap-points-x:repeat(50%);}.d-scrollContainer-snap{scroll-snap-align:start;}
+	/*** END DECORATION ***/
 		/*== [GAME:HANGMAN -- Alphazet @ Corporo Malala]==*/
 	/*** CANCEL ***/
 		.keyboard__key,.modal__actions button{border:none;font:inherit;}
@@ -59,7 +59,7 @@ Written for -- www.alphazet.corporomalala.com
 	/*** END Z-INDEXES ***/
 		
 	/*** COLORS ***/
-		/*OLD:background-color:rgba(0, 62, 230);NEW:(74, 51, 45) / #33ccc*/.website,.modal__actions button{background-color:rgb(74, 51, 45);}.chars__char,/* .drawing, */.modal__main{border-color:rgb(74, 51, 45);}.keyboard__key,.modal__content rem{color:rgb(74, 51, 45);}.keyboard__key{background-color:rgba(74, 51, 45, 0.07);}.js-body[gameLanguageAttribute="afrikaans"] .website-body_BUTTON.is-afrikaans,.js-body[gameLanguageAttribute="lingala"] .website-body_BUTTON.is-lingala{background-color:rgba(255, 255, 255, 0.5) !important;}.keyboard__key--found{color:rgba(102, 226, 213) !important;}.keyboard__key--found{background-color:rgba(102, 226, 213, 0.07) !important;}.keyboard__key--is-faulty{color:rgb(254, 0, 0);}.keyboard__key--is-faulty{background-color:rgba(254, 0, 0, 0.07);}.drawing__part-1_pillar,.drawing__part-2_branch,.drawing__part-3_cord,.drawing__part-5_body,.drawing__part-6_right-hand,.drawing__part-6_left-hand,.drawing__part-7_right-leg,.drawing__part-7_left-leg{background-color:rgb(0, 0, 0);}.drawing__container,.drawing__part-4_head{border-color:rgb(0, 0 , 0);}.modal__background{background-color:rgba(0, 0, 0, 0.6);}.modal__main{background-color:rgb(255, 255, 255);}.js-body[gameLanguageAttribute="afrikaans"] .website-body_BUTTON.is-lingala:hover,.js-body[gameLanguageAttribute="lingala"] .website-body_BUTTON.is-afrikaans:hover,.modal__actions button{color:rgb(255, 255, 255);}
+		/*OLD:background-color:rgba(0, 62, 230);NEW:(74, 51, 45) / #33ccc*/.modal__actions button{background-color:rgb(74, 51, 45);}.chars__char,/* .drawing, */.modal__main{border-color:rgb(74, 51, 45);}.keyboard__key,.modal__content rem{color:rgb(74, 51, 45);}.keyboard__key{background-color:rgba(74, 51, 45, 0.07);}.keyboard__key--found{color:rgba(102, 226, 213) !important;}.keyboard__key--found{background-color:rgba(102, 226, 213, 0.07) !important;}.keyboard__key--is-faulty{color:rgb(254, 0, 0);}.keyboard__key--is-faulty{background-color:rgba(254, 0, 0, 0.07);}.drawing__part-1_pillar,.drawing__part-2_branch,.drawing__part-3_cord,.drawing__part-5_body,.drawing__part-6_right-hand,.drawing__part-6_left-hand,.drawing__part-7_right-leg,.drawing__part-7_left-leg{background-color:rgb(0, 0, 0);}.drawing__container,.drawing__part-4_head{border-color:rgb(0, 0 , 0);}.modal__background{background-color:rgba(0, 0, 0, 0.6);}.modal__main{background-color:rgb(255, 255, 255);}.modal__actions button{color:rgb(255, 255, 255);}
 	/*** END COLORS ***/
 		
 	/*** FONTS ***/
@@ -92,8 +92,4 @@ Written for -- www.alphazet.corporomalala.com
 	/*** DECORATION ***/
 		
 	/*** END DECORATION ***/
-
-/*** HACKS ***/
-body,html{overflow-y:hidden !important;}
-/*** END HACKS ***/
 		/*===END CUSTOM===*/

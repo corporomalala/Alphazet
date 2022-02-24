@@ -85,10 +85,11 @@ function getGameLanguage() {
 		'Kombo na yo nini?',
 		'Matondi mingi',
 		'Mbotama elamu',
-		'Muana aza wapi?',
+		'Mbongo eza wapi?',
+		'Milolo! Milolo! Milolo!',
 		'Nasengi yo bolimbisi',
 		'Nayebi te',
-		'Nayebi ye te',
+		'Nayebi yo te',
 		'Tomonani Sima',
 		'Zela mukie',
       ];

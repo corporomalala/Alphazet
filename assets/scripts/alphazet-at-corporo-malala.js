@@ -86,6 +86,10 @@ $(".js-gameLanguageButton").click(function() {
 	setGameLanguage($(this).html().toLowerCase());
 //	alert($(this).html().toLowerCase());
 });
+
+$(".js-newGame").click(function() {
+reinitGame();
+});
 /*** END COMPONENTS ***/
 
 /*== [GAME: HANGMAN -- Alphazet @ Corporo Malala] ==*/

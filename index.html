@@ -123,9 +123,9 @@
 					<br />
 					
 					<div class="website-body_buttons js-gameLanguageButtons">
-						<button class="website-body_BUTTON js-gameLanguageButton is-fula" onclick="setGameLanguage('fula')">Fula</button>
-						<button class="website-body_BUTTON js-gameLanguageButton is-afrikaans" onclick="setGameLanguage('afrikaans')">Afrikaans</button>
-						<button class="website-body_BUTTON js-gameLanguageButton is-lingala" onclick="setGameLanguage('lingala')">Lingala</button>
+						<button class="website-body_BUTTON js-gameLanguageButton is-fula">Fula</button>
+						<button class="website-body_BUTTON js-gameLanguageButton is-afrikaans">Afrikaans</button>
+						<button class="website-body_BUTTON js-gameLanguageButton is-lingala">Lingala</button>
 					</div>
 					
 					<br /><br /><br />
@@ -175,6 +175,8 @@
 					<div id="chars" class="chars"></div>
 					<div id="keyboard" class="keyboard"></div>
 				</div>
+			</section>
+			
 				<div id="modal" class="modal" style="display: none">
 					<div class="modal__background"></div>
 					<div class="modal__main">
@@ -184,7 +186,6 @@
 						</div>
 					</div>
 				</div>
-			</section>
 				
 				<svg class="d-rectangularSVG" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid meet">
 					<path id="rectangular_path" class="d-rectangularSVG-path" fill="none" d="M30 30 H371 V570 H30 Z" />
@@ -212,6 +213,54 @@
 					<br />
 					<br />
 					<a href="https://translate.google.com/contribute" target="_blank">https://translate.google.com/contribute</a>
+					
+					<div class="section3-body-glossary">
+						<form class="section3-body-glossary-form js-form">
+							<div>
+								<div class="section3-body-glossary-form-extra-box">
+									<label class="u-label">Language:</label>
+									<select class="u-input js-glossary-language">
+										<option>fula</option>
+										<option>afrikaans</option>
+										<option>lingala</option>
+									</select>
+								</div>
+								<div class="section3-body-glossary-form-extra-text">
+									<a href="https://intobinary.org">Into Binary</a> has set up a glossary that you can contribute to. The words that are approved will be added to the game and every other language database we know.
+								</div>
+							</div>
+							<div class="section3-body-glossary-form-rows"><ul class="section3-body-glossary-form-rows-list">
+								<li class="section3-body-glossary-form-rows-list-item">
+									
+									<div class="section3-body-glossary-form-row js-row">
+										<div class="section3-body-glossary-form-row-data">
+											<div class="section3-body-glossary-form-row-data-box">
+												<label class="section3-body-glossary-form-row-data-box-line u-label">Word in <span class="js-glossary-languageText">Fula</span>:</label>
+												<input type="text" class="section3-body-glossary-form-row-data-box-line u-input js-input-word" placeholder="Word" />
+											</div><div class="section3-body-glossary-form-row-data-box">
+												<label class="section3-body-glossary-form-row-data-box-line u-label">Translation in English:</label>
+												<input type="text" class="section3-body-glossary-form-row-data-box-line u-input js-input-translation" placeholder="Translation" />
+											</div>
+										</div>
+										
+										<div class="section3-body-glossary-form-row-menu">
+											<button class="section3-body-glossary-form-row-menu-button js-addRow">+</button>
+											<button class="section3-body-glossary-form-row-menu-button js-deleteRow">-</button>
+										</div>
+									</div>
+								</li>
+							</ul></div>
+							
+							<div>
+								<div class="section3-body-glossary-form-extra-text">
+									[NOTA BENE] Words are kept only if sufficient amount of people have double-checked.
+								</div>
+								<div class="section3-body-glossary-form-extra-box">
+									<input type="submit" class="u-submit js-submit" value="Add To Glossary" />
+								</div>
+							</div>
+						</form>
+					</div>
 
 					<div class="section3-body_footer">
 						<h1 class="section3-body_footer-title">ALPHAZET!</h1>
@@ -220,6 +269,6 @@
 			</section>
 		</section>
 		
-		<script src="https://alphazet.corporomalala.com/assets/scripts/alphazet-at-corporo-malala.js"></script>
+		<script src="https://alphazet.corporomalala.com/assets/scripts/alphazet-at-corporo-malala.js" type="module"></script>
 	</body>
 </html>

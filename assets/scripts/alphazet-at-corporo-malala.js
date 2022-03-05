@@ -1,5 +1,5 @@
 /*===
-Into Binary (https://alphazet.corporomalala.com)
+Into Binary (http://localhost:4000)
 &copy Coryright 2022 Into Binary. All rights reserved.
 Written for -- www.alphazet.corporomalala.com
 ===*/
@@ -40,10 +40,9 @@ var defaultGameLanguage = document.querySelector(".js-body").getAttribute("gameL
 	globalGameLanguage = "";
 
 setup()
-
 function setup() {
 	getGameLanguage();
-//	setGameLanguage();
+//	setGameLanguage(getGameLanguage());
 	focusContainer();
 }
 
@@ -51,6 +50,7 @@ function focusContainer() {
 	var scrollableContainer = document.querySelector(".website");
 	scrollableContainer.focus();
 }
+
 function setGameLanguage(lang) {
 	var gameLanguageCookie = "gameLanguage=" + lang;
 	document.cookie = gameLanguageCookie + ";path=/";
@@ -76,19 +76,15 @@ function getGameLanguage() {
 		}
 	}
 	globalGameLanguage = theCookie;
-	if(globalGameLanguage == "" || globalGameLanguage == null || globalGameLanguage == undefined) {
+	if(globalGameLanguage == "" || globalGameLanguage == null || globalGameLanguage == "null" || globalGameLanguage == undefined || globalGameLanguage == "undefined") {
 		globalGameLanguage = defaultGameLanguage;
 	}
+	
 	return globalGameLanguage;
 }
 
 $(".js-gameLanguageButton").click(function() {
 	setGameLanguage($(this).html().toLowerCase());
-//	alert($(this).html().toLowerCase());
-});
-
-$(".js-newGame").click(function() {
-reinitGame();
 });
 /*** END COMPONENTS ***/
 
@@ -433,8 +429,9 @@ function getTranslationOfChosenWord() {
       listenForInputs(letter => {
         guessLetter(letter);
       });
+	  
 
-/*== [MAIN -- Alphazet @ Corporo Malala] ==*/
+/*== [FIREBASE -- Alphazet @ Corporo Malala] ==*/
 /*** FIREBASE ***/
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.7/firebase-analytics.js";
@@ -454,22 +451,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getDatabase(app);
-
-/*  
-var item = "";
-
-function insertData() {
-	set(ref(db, "testTable"), {
-		testRow: item
-	});
-}
-
-$(".btn").click(function(){
-	item = $('#firebase-input').val();
-
-	insertData();
-});
-*/
 /*** END FIREBASE ***/
 
 /*== [GLOSSARY -- Alphazet @ Corporo Malala] ==*/
@@ -497,9 +478,10 @@ var inputTag4Word = $(".js-input-word"),
 	inputTag4Translation = $(".js-input-translation");
 var inputTag4WordText = "",
 	inputTag4TranslationText = "";
-var dbAddress = "Glossary/Contributions/" + getGameLanguage();
 
 function uploadWord() {
+	alert(getGameLanguage());
+
 	sanitizeInputs();
 	
 	inputTag4WordText = inputTag4Word.val();
@@ -513,7 +495,22 @@ function uploadWord() {
 	clearInputs();
 }
 
+function generateID() {
+	var IDchars = "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz",
+		IDcharsArray = IDchars.split(""),
+		newPushID = "",
+		now = 0;
+	for (var i = 0; i < 9; i++) {
+		now = Math.floor(Math.random() * IDcharsArray.length) + 0;
+		now = IDcharsArray[now];
+		newPushID += now;
+	}
+	
+	return newPushID;
+}
+
 function insertData() {
+	var dbAddress = "Glossary/Contributions/" + getGameLanguage() + "/" + generateID();
 	set(ref(db, dbAddress), {
 		word: inputTag4WordText,
 		translation: inputTag4TranslationText

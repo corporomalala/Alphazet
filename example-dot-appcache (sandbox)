@@ -1,0 +1,21 @@
+CACHE MANIFEST
+# v1.0 : __-__-____
+
+CACHE MANIFEST
+# pages
+index.html
+
+# styles & scripts
+css/themes.css
+js/jquery.min.js
+js/default.js
+
+# images
+/favicon.ico
+images/logo.png
+
+NETWORK
+login.php
+
+FALLBACK
+/ /offline.html

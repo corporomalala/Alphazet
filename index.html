@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en" class="nope-js">
+<html lang="en" class="nope-js" manifest="">
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -67,35 +67,12 @@
 		<meta name="norton-safeweb-site-verification" content="" />
 		-->
 		
-		<!-- Schema.org data -->
-		<!--
-		<meta content="" />
-		<meta content="" />
-		<meta content="true" />
-		<meta content="https://alphazet.corporomalala.com/assets/images/-logo-name_colors.png" />
-		-->
-		
-		<!-- Twitter Card data -->
-		<meta name="twitter:card" content="summary" />
-		<meta name="twitter:site" content="https://alphazet.corporomalala.com" />
-		<meta name="twitter:creator" content="MadamEllaMalala" />
-		<meta name="twitter:title" content="Alphazet" />
-		<meta name="twitter:description" content="Emphasizing the beauty of African languages." />
-		<meta name="twitter:image" content="https://alphazet.corporomalala.com/assets/images/alphazet-logo.png" />
-		<meta name="twitter:image:alt" content="Logo of Alphazet (https://alphazet.corporomalala.com)" />
-		
-		<!-- Open Graph data -->
-		<meta property="og:locale" content="en" />
-		<meta property="og:type" content="website" />
-		<meta property="og:title" content="Alphazet" />
-		<meta property="og:description" content="Emphasizing the beauty of African languages." />
-		<meta property="og:url" content="https://alphazet.corporomalala.com" />
-		<meta property="og:site_name" content="Into Binary" />
-		<meta property="og:image" content="https://alphazet.corporomalala.com/assets/images/elletechblog-logo-name_black.png"/>
-		<meta property="fb:admins" content="IntoBinary" />
+	
 		
 		<link rel="stylesheet" href="https://alphazet.corporomalala.com/assets/stylesheets/alphazet-at-corporo-malala.css" />
+		<!--
 		<link rel="manifest" href="https://alphazet.corporomalala.com/manifest.json" />
+		-->
 		
 		<meta name="geo.region" content="ZA-GT" />
 		<meta name="geo.placename" content="Johannesburg" />
@@ -104,9 +81,9 @@
 		<link rel="shortlink" href="https://alphazet.corporomalala.com" />
 	</head>
 
-	<body class="js-body d-scrollContainer" gameLanguageAttribute="fula">
-		
+	<body class="js-body d-scrollContainer pg-app" gameLanguageAttribute="fula" style="background-color: rgb(74, 51, 45);">
 		<section class="container">
+			
 			<section class="website d-scrollContainer-snap" tabindex="0">
 				<section class="website-body">
 					<header class="website-body_header">
@@ -143,7 +120,7 @@
 					
 						<div class="website-body_footer-front">
 							<label for="chkxForInfoBox" class="website-body_footer-front-button" title="Click here to open info box"><div class="website-body_footer-front-button-wrap">i</div></label>
-							<div class="website-body_footer-front-text">Version 1.1.0</div>
+							<div class="website-body_footer-front-text">Version 1.1.1</div>
 						</div>
 						
 						<div class="website-body_footer-back"><div class="website-body_footer-back-wrap">
@@ -182,7 +159,7 @@
 					<div class="modal__main">
 						<div class="modal__content"></div>
 						<div class="modal__actions">
-							<button class="js-newGame">Play New Game</button>
+							<button class="js-new-game">Play New Game</button>
 						</div>
 					</div>
 				</div>
@@ -209,7 +186,7 @@
 			
 			<section class="section3 d-scrollContainer-snap">
 				<section class="section3-body">
-					<p>Google has rencently opened their translation algorithm to the public. Go to:</p>
+					<p>Google has rencently made their translation algorithm available to the public. Go to:</p>
 					<br />
 					<br />
 					<a href="https://translate.google.com/contribute" target="_blank">https://translate.google.com/contribute</a>
@@ -265,6 +242,8 @@
 					<div class="section3-body_footer">
 						<h1 class="section3-body_footer-title">ALPHAZET!</h1>
 					</div>
+					
+					<div class="section3-body_notification js-notification is-hidden">You are <span class="js-notification-text">offline</span>.</div>
 				</section>
 			</section>
 		</section>

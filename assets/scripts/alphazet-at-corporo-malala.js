@@ -1,5 +1,5 @@
 /*===
-Into Binary (http://localhost:4000)
+Into Binary (https://alphazet.corporomalala.com)
 &copy Coryright 2022 Into Binary. All rights reserved.
 Written for -- www.alphazet.corporomalala.com
 ===*/
@@ -57,6 +57,7 @@ function setGameLanguage(lang) {
 
 	globalGameLanguage = lang;
 	document.querySelector(".js-body").setAttribute("gameLanguageAttribute", lang);
+	document.querySelector(".js-glossary-language").value = lang;
 	document.querySelector(".js-glossary-languageText").innerHTML = lang;
 //	getGameLanguage();
 	
@@ -86,6 +87,30 @@ function getGameLanguage() {
 $(".js-gameLanguageButton").click(function() {
 	setGameLanguage($(this).html().toLowerCase());
 });
+
+window.addEventListener("load", function(event) {
+	navigator.onLine ? appOnline() : appOffline();
+});
+
+function appOffline() {
+//	$(".js-submit").prop("disabled", true);
+	$(".js-submit").removeClass("is-usable").addClass("is-disabled");
+	
+	$(".js-notification").removeClass("is-hidden").removeClass("is-online").addClass("is-offline");
+	document.querySelector(".js-notification-text").textContent = "offline";
+	setTimeout(function() {
+		$(".js-notification").addClass("is-hidden");
+	}, 3000);
+}
+function appOnline() {
+	$(".js-submit").removeClass("is-disabled").addClass("is-usable");
+	
+	$(".js-notification").removeClass("is-hidden").removeClass("is-offline").addClass("is-online");
+	document.querySelector(".js-notification-text").textContent = "online";
+	setTimeout(function() {
+		$(".js-notification").addClass("is-hidden");
+	}, 3000);
+}
 /*** END COMPONENTS ***/
 
 /*== [GAME: HANGMAN -- Alphazet @ Corporo Malala] ==*/
@@ -430,6 +455,9 @@ function getTranslationOfChosenWord() {
         guessLetter(letter);
       });
 	  
+	  $(".js-new-game").click(function() {
+		 reinitGame(); 
+	  });
 
 /*== [FIREBASE -- Alphazet @ Corporo Malala] ==*/
 /*** FIREBASE ***/
@@ -469,6 +497,9 @@ $(".js-form").submit(function(event) {
 	uploadWord();
 });
 $(".js-submit").click(function(event) {
+	event.preventDefault();
+});
+$(".js-submit.is-usable").click(function(event) {
 	event.preventDefault();
 
 	uploadWord();

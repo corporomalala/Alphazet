@@ -121,7 +121,9 @@ function appOnline() {
 /*** END COMPONENTS ***/
 
 /*== [GAME: HANGMAN -- Alphazet @ Corporo Malala] ==*/
-      let game = null;
+
+	var wordOfCurrentGame = "", translatedWordOfCurrentGame = "";
+	let game = null;
       const MAX_FAULTS = 9;
 	  
 	  
@@ -227,6 +229,12 @@ const wordList_lingala = [
 //        showModal("Oh no, dear! <br />We were looking for: <br /><em style='text-decoration: underline;'>'Game Game'</em>.");
         return hangman;
       }
+	  function refresh() {
+		const hangmanAgain = new Hangman(wordOfCurrentGame, translatedWordOfCurrentGame, gameEndHandler);
+        hideModal();
+       drawGame(hangmanAgain);
+        return hangman;
+	  }
 
 var chosenWordTranslated = "";
 function getRandomWord() { 
@@ -234,21 +242,27 @@ function getRandomWord() {
 		const index = Math.floor(Math.random() * wordList_fula.length);
 		
 		chosenWordTranslated = wordList_fula[index][1];
+		translatedWordOfCurrentGame = wordList_fula[index][1];
 		
+		wordOfCurrentGame = wordList_fula[index][0];
 		return wordList_fula[index][0];
 	}
 	if(globalGameLanguage == "afrikaans") {
 		const index = Math.floor(Math.random() * wordList_afrikaans.length);
 		
 		chosenWordTranslated = wordList_afrikaans[index][1];
+		translatedWordOfCurrentGame = wordList_afrikaans[index][1];
 		
+		wordOfCurrentGame = wordList_afrikaans[index][0];
 		return wordList_afrikaans[index][0];
 	}
 	if(globalGameLanguage == "lingala") {
 		const index = Math.floor(Math.random() * wordList_lingala.length);
 		
 		chosenWordTranslated = wordList_lingala[index][1];
+		translatedWordOfCurrentGame = wordList_lingala[index][1];
 		
+		wordOfCurrentGame = wordList_lingala[index][0];
 		return wordList_lingala[index][0];
 	}
 }
@@ -465,6 +479,10 @@ function getTranslationOfChosenWord() {
 	  $(".js-new-game").click(function() {
 		 reinitGame(); 
 	  });
+	  $(".js-refresh").click(function() {
+		 reinitGame(); 
+//		refresh();
+	  });
 
 /*== [FIREBASE -- Alphazet @ Corporo Malala] ==*/
 /*** FIREBASE ***/
@@ -501,20 +519,26 @@ $(".js-deleteRow").click(function() {
 $(".js-form").submit(function(event) {
 	event.preventDefault();
 	checkNetwork();
-	
-	uploadWord();
+	checkSecurity();
 });
 $(".js-submit").click(function(event) {
 	event.preventDefault();
 	checkNetwork();
-
-	uploadWord();
+	checkSecurity();
 });
 
 var inputTag4Word = $(".js-input-word"),
-	inputTag4Translation = $(".js-input-translation");
+	inputTag4Translation = $(".js-input-translation"),
+	inputTag4Email = $(".js-input-email");
 var inputTag4WordText = "",
-	inputTag4TranslationText = "";
+	inputTag4TranslationText = "",
+	inputTag4EmailText = "";
+	
+function checkSecurity() {
+	if(inputTag4Email.val() !== "") {} else {
+		uploadWord();
+	}
+}
 
 function uploadWord() {
 //	alert(getGameLanguage());

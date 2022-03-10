@@ -120,7 +120,7 @@
 					
 						<div class="website-body_footer-front">
 							<label for="chkxForInfoBox" class="website-body_footer-front-button" title="Click here to open info box"><div class="website-body_footer-front-button-wrap">i</div></label>
-							<div class="website-body_footer-front-text">Version 1.1.1</div>
+							<div class="website-body_footer-front-text">Version 1.1.2</div>
 						</div>
 						
 						<div class="website-body_footer-back"><div class="website-body_footer-back-wrap">
@@ -144,7 +144,10 @@
 				<div id="hangman">
 					<div class="drawing" id="drawing">
 						<p class="drawing__message"></p>
-						<div class="drawing__container"></div>
+						<div class="drawing__container">
+						</div>
+						
+						<button class="game-body_refresh js-refresh"><span class="game-body_refresh-icon">Refresh</span></button>
 					</div>
 					<div id="result"></div>
 				</div>
@@ -217,13 +220,18 @@
 											</div><div class="section3-body-glossary-form-row-data-box">
 												<label class="section3-body-glossary-form-row-data-box-line u-label">Translation in English*:</label>
 												<input type="text" class="section3-body-glossary-form-row-data-box-line u-input js-input-translation" placeholder="Translation" minlength="2" autocomplete="off" required />
+											</div><div class="section3-body-glossary-form-row-data-box js-input-email-parent">
+												<label class="section3-body-glossary-form-row-data-box-line u-label">Your email*:</label>
+												<input type="email" class="section3-body-glossary-form-row-data-box-line u-input js-input-email" placeholder="Your email" minlength="2" autocomplete="off" required />
 											</div>
 										</div>
 										
+										<!--
 										<div class="section3-body-glossary-form-row-menu">
 											<button class="section3-body-glossary-form-row-menu-button js-addRow">+</button>
 											<button class="section3-body-glossary-form-row-menu-button js-deleteRow">-</button>
 										</div>
+										-->
 									</div>
 								</li>
 							</ul></div>

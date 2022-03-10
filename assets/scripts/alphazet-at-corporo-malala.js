@@ -89,8 +89,15 @@ $(".js-gameLanguageButton").click(function() {
 });
 
 window.addEventListener("load", function(event) {
-	navigator.onLine ? appOnline() : appOffline();
+	checkNetwork();
+	setGameLanguage(getGameLanguage());
 });
+window.addEventListener("offline", function(event) { checkNetwork(); });
+window.addEventListener("online", function(event) { checkNetwork(); });
+
+function checkNetwork() {
+	navigator.onLine ? appOnline() : appOffline();
+}
 
 function appOffline() {
 //	$(".js-submit").prop("disabled", true);
@@ -100,7 +107,7 @@ function appOffline() {
 	document.querySelector(".js-notification-text").textContent = "offline";
 	setTimeout(function() {
 		$(".js-notification").addClass("is-hidden");
-	}, 3000);
+	}, 5000);
 }
 function appOnline() {
 	$(".js-submit").removeClass("is-disabled").addClass("is-usable");
@@ -109,7 +116,7 @@ function appOnline() {
 	document.querySelector(".js-notification-text").textContent = "online";
 	setTimeout(function() {
 		$(".js-notification").addClass("is-hidden");
-	}, 3000);
+	}, 5000);
 }
 /*** END COMPONENTS ***/
 
@@ -493,14 +500,13 @@ $(".js-deleteRow").click(function() {
 
 $(".js-form").submit(function(event) {
 	event.preventDefault();
+	checkNetwork();
 	
 	uploadWord();
 });
 $(".js-submit").click(function(event) {
 	event.preventDefault();
-});
-$(".js-submit.is-usable").click(function(event) {
-	event.preventDefault();
+	checkNetwork();
 
 	uploadWord();
 });
@@ -511,19 +517,20 @@ var inputTag4WordText = "",
 	inputTag4TranslationText = "";
 
 function uploadWord() {
-	alert(getGameLanguage());
-
-	sanitizeInputs();
+//	alert(getGameLanguage());
 	
-	inputTag4WordText = inputTag4Word.val();
-	inputTag4TranslationText = inputTag4Translation.val();
+	inputTag4WordText = sanitizeInput(inputTag4Word.val());
+	inputTag4TranslationText = sanitizeInput(inputTag4Translation.val());
 	
 //	var testString = getGameLanguage() + ": " +inputTag4WordText + "/" + inputTag4TranslationText;
 //	alert(testString);
 
-	insertData();
-	
-	clearInputs();
+	if(inputTag4WordText != "" && inputTag4TranslationText != "") {
+		navigator.onLine ? insertData() : glossaryOffline();
+	} else {
+		var errorString = "[ERROR] Please fill out the two input fields.";
+		showError(errorString);
+	}
 }
 
 function generateID() {
@@ -540,6 +547,12 @@ function generateID() {
 	return newPushID;
 }
 
+function glossaryOffline() {
+	var errorString = "[ERROR] Check your internet connection.";
+	showError(errorString);
+	appOffline();
+}
+
 function insertData() {
 	var dbAddress = "Glossary/Contributions/" + getGameLanguage() + "/" + generateID();
 	set(ref(db, dbAddress), {
@@ -547,15 +560,36 @@ function insertData() {
 		translation: inputTag4TranslationText
 	});
 	
-	var alertString = "Thank You! \nWe have saved: " + inputTag4WordText + ".";
-	alert(alertString);
+	var alertString = "[SUCCESS] Thank You! \nWe have saved: <span style='text-decoration:underline; color: #000;'>" + inputTag4WordText + "</span> in " + getGameLanguage() + ", with English translation: <span style='text-decoration:underline; color: #000;'>" + inputTag4TranslationText + "</span>. Add another word?";
+	
+	showError(alertString);
+	clearInputs();
 }
 
-function sanitizeInputs() {
+function sanitizeInput(str) {
+//	str = str.replace(/[^a-z0-9àáéïíöóüúñü \.,_-]/gim, " ");
+//	str = '(''|[^'])*';
+//	str = \b(ALTER|CREATE|DELETE|DROP|EXECUTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1}\b
+//	str = "('(''|[^']*')|(;)|(\b(ALTER|CREATE|DELETE|DROP|EXECUTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1}\b))";
+
+	str = str.trim();
+	if(/([^\s])/.test(str) == false) {
+		str = "";
+	} else {
+		str = str.replace(/[^\w\s]/gi, '');
+		str = str.replace(/[^A-zÀ-ú\s]/gi, '');
+		str = str.replace(/[`~!@#$%^&*()_|+-=?;:,.<>{}\[\]\\\/]/gi, '');
+	}
+
+	return str;
+}
+
+function showError(str) {
+	document.querySelector(".js-notabene").innerHTML = str;
 }
 
 function clearInputs() {
-//	inputTag4Word.val() = "";
-//	inputTag4Translation.val() = "";
+	document.querySelector(".js-input-word").value = "";
+	document.querySelector(".js-input-translation").value = "";
 }
 /*=== END CUSTOM ===*/

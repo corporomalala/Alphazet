@@ -480,7 +480,7 @@ function getTranslationOfChosenWord() {
 		 reinitGame(); 
 	  });
 	  $(".js-refresh").click(function() {
-		 reinitGame(); 
+		 reinitGame(); return false;
 //		refresh();
 	  });
 

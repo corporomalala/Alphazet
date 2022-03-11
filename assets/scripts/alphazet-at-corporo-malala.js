@@ -479,8 +479,9 @@ function getTranslationOfChosenWord() {
 	  $(".js-new-game").click(function() {
 		 reinitGame(); 
 	  });
-	  $(".js-refresh").click(function() {
-		 reinitGame(); return false;
+	  $(".js-refresh").click(function(e) {
+    e.preventDefault();
+		 reinitGame();
 //		refresh();
 	  });
 

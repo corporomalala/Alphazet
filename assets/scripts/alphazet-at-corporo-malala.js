@@ -37,18 +37,40 @@ animaterectangular();
 /*== [MAIN -- Alphazet @ Corporo Malala] ==*/
 /*** COMPONENTS ***/
 var defaultGameLanguage = document.querySelector(".js-body").getAttribute("gameLanguageAttribute"),
-	globalGameLanguage = "";
+	globalGameLanguage = "",
+	gameIsLoaded = false,
+	appCouldBeWebview = false,
+	appDownloadRequest = false;
 
 setup()
 function setup() {
 	getGameLanguage();
 //	setGameLanguage(getGameLanguage());
 	focusContainer();
+	
+	testBrowser();
 }
 
 function focusContainer() {
+//	var scrollableContainer = $(".website");
 	var scrollableContainer = document.querySelector(".website");
 	scrollableContainer.focus();
+	
+	/*
+	var scrollPositionX = 0,
+		scrollPositionY = 0;
+
+	
+	scrollableContainer.addEventListener("scroll", event ==> {
+		scrollPositionX = scrollableContainer.scrollLeft;
+		scrollPositionY = scrollableContainer.scrollTop;
+	}, { passive: true });
+
+
+	scrollableContainer.scrollLeft = 10;
+
+	scrollableContainer.scrollBy(10, 0);
+*/
 }
 
 function setGameLanguage(lang) {
@@ -91,6 +113,7 @@ $(".js-gameLanguageButton").click(function() {
 window.addEventListener("load", function(event) {
 	checkNetwork();
 	setGameLanguage(getGameLanguage());
+	gameIsLoaded = true;
 });
 window.addEventListener("offline", function(event) { checkNetwork(); });
 window.addEventListener("online", function(event) { checkNetwork(); });
@@ -103,21 +126,108 @@ function appOffline() {
 //	$(".js-submit").prop("disabled", true);
 	$(".js-submit").removeClass("is-usable").addClass("is-disabled");
 	
-	$(".js-notification").removeClass("is-hidden").removeClass("is-online").addClass("is-offline");
 	document.querySelector(".js-notification-text").textContent = "offline";
-	setTimeout(function() {
-		$(".js-notification").addClass("is-hidden");
-	}, 5000);
+
+	if(gameIsLoaded == true) {
+		$(".js-notification").removeClass("is-hidden").removeClass("is-online").addClass("is-offline");
+		setTimeout(function() {
+			$(".js-notification").addClass("is-hidden");
+		}, 5000);
+	}
 }
 function appOnline() {
 	$(".js-submit").removeClass("is-disabled").addClass("is-usable");
 	
-	$(".js-notification").removeClass("is-hidden").removeClass("is-offline").addClass("is-online");
 	document.querySelector(".js-notification-text").textContent = "online";
-	setTimeout(function() {
-		$(".js-notification").addClass("is-hidden");
-	}, 5000);
+
+	if(gameIsLoaded == true) {
+		$(".js-notification").removeClass("is-hidden").removeClass("is-offline").addClass("is-online");
+		setTimeout(function() {
+			$(".js-notification").addClass("is-hidden");
+		}, 5000);
+	}
 }
+
+function testBrowser() {
+	var thisUserAgent = window.navigator.userAgent.toLowerCase();
+	var detectedBrowser = "";
+	
+	if ((thisUserAgent.indexOf("opera") || navigator.userAgent.indexOf("OPR")) != -1) {
+		detectedBrowser = "Opera";
+	} else if (thisUserAgent.indexOf("chrome") != -1) {
+		detectedBrowser = "Chrome";
+	} else if (thisUserAgent.indexOf("safari") != -1) {
+		detectedBrowser = "Safari";
+	} else if (thisUserAgent.indexOf("firefox") != -1) {
+		detectedBrowser = "Firefox";
+	} else if ((thisUserAgent.indexOf("msie") != -1) || (!!document.documentMode == true)) {
+		detectedBrowser = "Internet Explorer";
+	} else if((thisUserAgent.indexOf("iphone") || thisUserAgent.indexOf("ipod") || thisUserAgent.index("ipad")) != -1) {
+		detectedBrowser = "Operating Sytem: iOS";
+		appCouldBeWebview = true;
+	} else if(thisUserAgent.indexOf("android") != -1) {
+		detectedBrowser = "Android";
+		appCouldBeWebview = true;
+	} else {
+		detectedBrowser = "Unknown";
+		appCouldBeWebview = true;
+	}
+//	alert(detectedBrowser);
+	
+//	var safari = /safari/.test(userAgent),
+//		iOS = /iphone|ipod|ipad/.test(userAgent);
+
+//	alert(navigator.userAgent);
+
+	/*
+	if(iOS) {
+		if(safari) {
+			// browser
+		} else {
+			// webView
+		}
+	} else {
+		// not iOS
+	}
+	*/
+	
+}
+function requestAppDownload() {
+	var androidButton = document.querySelector(".js-android-button");
+
+	if((appCouldBeWebview == false) && (appDownloadRequest == false)) {
+		appDownloadRequest = true;
+		
+		setTimeout(function() {
+			androidButton.classList.remove("is-hidden");
+			
+			setTimeout(function() {
+				androidButton.classList.add("is-hidden");
+				appDownloadRequest = false;
+			}, 10000);
+		}, 10000);
+	}
+}
+
+$(".js-android-button").click(function() {
+	checkNetwork();
+	
+	$(".js-android-modal").removeClass("is-hidden");
+	
+	/*
+	var alertMessage = 'You are about to download the APK (alphazet--v1.2.0.apk). \nType: "Alphazet" to confirm. \n\nIf you do not know what this is, press cancel! :)';
+	var customAlert = prompt(alertMessage);
+
+	if(customAlert.toLowerCase() == "alphazet") {
+		window.open("/APKs/alphazet--v1.2.0.apk");
+//		$(".js-android-file").click();
+	}
+	*/
+});
+$(".js-android-modal-cancel").click(function() {
+	$(".js-android-modal").addClass("is-hidden");
+	focusContainer();
+});
 /*** END COMPONENTS ***/
 
 /*== [GAME: HANGMAN -- Alphazet @ Corporo Malala] ==*/
@@ -150,7 +260,10 @@ const wordList_fula = [
 const wordList_afrikaans = [
 	["Aangenaame kennis", "Nice to meet you"],
 	["Asseblief", "Please"],
+	["Bly te kene", "Nice to meet you"],
 	["Dankie", "Thank you"],
+	["Dit gaan goed", "I'm fine"],
+	["Ek is lief vir jou", "I love you"],
 	["Ek is jammer", "I'm sorry"],
 	["Ek weet nie", "I don't know"],
 	["Goed dankie, en met jou?", "I'm fine, thanks. And you?"],
@@ -227,6 +340,8 @@ const wordList_lingala = [
         drawGame(hangman);
 //		drawHangman(9);
 //        showModal("Oh no, dear! <br />We were looking for: <br /><em style='text-decoration: underline;'>'Game Game'</em>.");
+		requestAppDownload();
+
         return hangman;
       }
 	  function refresh() {
@@ -479,9 +594,8 @@ function getTranslationOfChosenWord() {
 	  $(".js-new-game").click(function() {
 		 reinitGame(); 
 	  });
-	  $(".js-refresh").click(function(e) {
-    e.preventDefault();
-		 reinitGame();
+	  $(".js-refresh").click(function() {
+		 reinitGame(); 
 //		refresh();
 	  });
 

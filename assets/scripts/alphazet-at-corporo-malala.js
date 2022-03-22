@@ -38,10 +38,15 @@ animaterectangular();
 /*** COMPONENTS ***/
 var defaultGameLanguage = document.querySelector(".js-body").getAttribute("gameLanguageAttribute"),
 	globalGameLanguage = "",
+	gamePlayer = "",
+	gameScore = 0,
+	gameWon = false,
 	gameIsLoaded = false,
+	gameHighscore = 0,
+	gameHighscoreReached = false,
+	gameRefreshRequest = false,
 	appCouldBeWebview = false,
-	appDownloadRequest = false,
-	gameRefreshRequest = false;
+	appDownloadRequest = false;
 
 setup()
 function setup() {
@@ -165,25 +170,6 @@ function testBrowser() {
 		detectedBrowser = "Unknown";
 		appCouldBeWebview = true;
 	}
-//	alert(detectedBrowser);
-	
-//	var safari = /safari/.test(userAgent),
-//		iOS = /iphone|ipod|ipad/.test(userAgent);
-
-//	alert(navigator.userAgent);
-
-	/*
-	if(iOS) {
-		if(safari) {
-			// browser
-		} else {
-			// webView
-		}
-	} else {
-		// not iOS
-	}
-	*/
-	
 }
 function requestAppDownload() {
 	var androidButton = document.querySelector(".js-android-button");
@@ -201,6 +187,61 @@ function requestAppDownload() {
 		}, 10000);
 	}
 }
+
+function sanitizeInput(str) {
+//	str = str.replace(/[^a-z0-9àáéïíöóüúñü \.,_-]/gim, " ");
+//	str = '(''|[^'])*';
+//	str = \b(ALTER|CREATE|DELETE|DROP|EXECUTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1}\b
+//	str = "('(''|[^']*')|(;)|(\b(ALTER|CREATE|DELETE|DROP|EXECUTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1}\b))";
+
+	str = str.trim();
+	if(/([^\s])/.test(str) == false) {
+		str = "";
+	} else {
+		str = str.replace(/[^\w\s]/gi, '');
+		str = str.replace(/[^A-zÀ-ú\s]/gi, '');
+		str = str.replace(/[`~!@#$%^&*()_|+-=?;:,.<>{}\[\]\\\/]/gi, '');
+	}
+
+	return str;
+}
+function sortJsonUnique(theData) {
+	var newListOfNames = "";
+	for(var i = 0; i < theData.length; i++) {
+		var currentName = theData[i].name;
+		if(newListOfNames.includes(currentName)) {
+//			alert("HERE");
+		} else {
+//			alert("THERE");
+			newListOfNames += ", " + currentName;
+		}
+	}
+	var newArrOfNames = newListOfNames.split(",");
+	/*
+	var sortedArray = [];
+
+	for(var i = 0; i < newArrOfNames.length; i++) {
+		var item = newArrOfNames[i];
+		if(item == "") { newArrOfNames.splice(i, 1); }
+		sortedArray.push(item);
+	}
+	*/
+	return sortedArray;
+}
+/*
+function sortArrayUnique(arr) {
+	if(arr.length === 0) { return arr; }
+	arr = arr.sort(function(a, b) {
+		var ret = [arr[0]];
+		for(var i = 1; i < arr.length; i++) {
+			if(arr[i-1] != arr[i]) {
+				ret.push(arr[i]);
+			}
+		}
+		return ret;
+	});
+}
+*/
 
 $(".js-android-button").click(function() {
 	checkNetwork();
@@ -232,7 +273,7 @@ $(".js-android-modal-cancel").click(function() {
 	  
 const wordList_fula = [
 	["A fami?", "Do you understand?"],
-	["Achu haké hal cess, mi famili", "Please speak more slowly"],
+	["Achu hake hal cess, mi famili", "Please speak more slowly"],
 	["Ala", "No"],
 	["Eey", "Yes"],
 	["Haa gonngol", "Goodbye"],
@@ -302,6 +343,10 @@ const wordList_lingala = [
 	  
 
       function reinitGame() {
+		  if(gameWon == false) { gameScore = 0; }
+		  gamePlayer = "",
+		  gameWon = false;
+		  
         game = initNewGame();
 		focusContainer();
       }
@@ -312,18 +357,25 @@ const wordList_lingala = [
       }
 
       function showModal(content) {
-        const modal = document.getElementById('modal');
-        const modalContent = modal.querySelector('.modal__content');
-        modalContent.innerHTML = content;
+		const modal = document.getElementById('modal');
+		const modalContent = modal.querySelector('.modal__content');
+		modalContent.innerHTML = content;
 		focusContainer();
-        setTimeout(() => (modal.style.display = ''), 300);
+		setTimeout(() => (modal.style.display = ''), 300);
       }
 
       function gameEndHandler() {
         const content = game.hasWon()
           ? `Great, you are a winner! <br /><br />You found: <em style='text-decoration: underline;'>"${game.getWord()}"</em>. You seem to know the language; can you add new words to our glossary? Swipe right!`
           : `Oh no, dear! <br /><br />We were looking for: <em style='text-decoration: underline;'>"${game.getWord()}"</em>. It means: <em style='text-decoration: underline;'>"${game.getTranslatedWord()}"</em>.`;
-        showModal(content);
+		  		  
+		  if((gameWon == false) && (gameScore > gameHighscore)) {
+			  showHighScore();
+		  }
+		  else {
+			showScoreCount();
+			showModal(content);
+		  }
       }
 
       function initNewGame() {
@@ -565,12 +617,16 @@ function getTranslationOfChosenWord() {
           return (
             !this.hasLost() &&
             letters.every(char => {
+				gameWon = true;
+				
               return this.pickedLetters.includes(char);
             })
           );
         }
 
         hasLost() {
+			gameWon = false;
+			
           return this.faults >= MAX_FAULTS;
         }
 
@@ -584,15 +640,134 @@ function getTranslationOfChosenWord() {
         guessLetter(letter);
       });
 	  
-	  $(".js-new-game").click(function() {
-		 reinitGame(); 
-	  });
-	  $(".js-refresh").click(function() {
-		  gameRefreshRequest = true;
-		 reinitGame();
-		 gameRefreshRequest = false;
+	setupGameHangman();
+	function setupGameHangman() {
+		setupGameHtml();
+	}
+	function setupGameHtml() {
+//		localStorage.setItem("AlphazetHangmanHighScores", null);
+		
+		getGameHighscore();
+		setPlayerNamesOption();
+		getRecords();
+	}
+	function getGameHighscore() {
+		var dbHangmanRecords = JSON.parse(localStorage.getItem("AlphazetHangmanHighScores"));
+		
+		if(dbHangmanRecords != null) {
+			dbHangmanRecords.sort((a,b) => (a.score < b.score) ? 1: -1);
+			gameHighscore = dbHangmanRecords[0];
+		}
+		else { gameHighscore = 0; }
+	}
+	function setPlayerNamesOption() {
+		var playerNamesTag = document.querySelector(".js-playerNames");
+		
+		var dbHangmanRecords = JSON.parse(localStorage.getItem("AlphazetHangmanHighScores"));
+		
+		if(dbHangmanRecords != null) {
+			var theData = dbHangmanRecords;
+			
+			var newListOfNames = "";
+			for(var i = 0; i < theData.length; i++) {
+				var currentName = theData[i].name;
+				if(newListOfNames.includes(currentName)) { }
+				else {
+					if (newListOfNames != "") { newListOfNames += ","; }
+					newListOfNames += currentName;
+				}
+			}
+
+			var newArrOfNames = newListOfNames.split(",");
+			
+			var newTagOptions = "";
+			for(var i = 0; i < newArrOfNames.length; i++) {
+				var item = newArrOfNames[i];
+				if(item != "") {
+					newTagOptions += "<option value='"+ item +"' />";
+				}
+			}
+			playerNamesTag.innerHTML = newTagOptions;
+		} else {
+		}
+	}
+	function saveRecord() {
+		var thisHighscoreRecord = [ { game: "AlphazetHangman", name: gamePlayer, score: gameScore } ];
+		var thisNameRecord = [ { gamePlayer } ];
+
+		var dbHangmanRecords = JSON.parse(localStorage.getItem("AlphazetHangmanHighScores"));
+		
+		if(dbHangmanRecords !== null) {
+			dbHangmanRecords.push(thisHighscoreRecord[0]);
+		} else {
+			dbHangmanRecords = thisHighscoreRecord;
+		}
+		
+		localStorage.setItem("AlphazetHangmanHighScores", JSON.stringify(dbHangmanRecords));
+	}
+	
+	function showHighScore() {
+		alert("showHighScore();");
+	}
+
+	function getRecords() {
+		var dbHangmanRecords = JSON.parse(localStorage.getItem("AlphazetHangmanHighScores"));
+		
+		if(dbHangmanRecords != null) {
+			dbHangmanRecords.sort((a,b) => (a.score < b.score) ? 1: -1);
+			var htmlToSend = "";
+			var specialClass = "";
+			
+			var maxRecordsToShow = 10;
+			if(dbHangmanRecords.length <= maxRecordsToShow) {
+				maxRecordsToShow = dbHangmanRecords.length;
+			}
+
+			for (var i = 0; i < maxRecordsToShow; i++) {
+				var currentRecord = dbHangmanRecords[i];
+				var visibleIndex = i + 1;
+				
+				if((gamePlayer == currentRecord.name) && (gameScore == currentRecord.score)) { specialClass = " is-currentScore"; }
+				else { specialClass = ""; }
+				
+				htmlToSend += '<div class="game-body_leaderboard-content_view-row'+ specialClass +'"><span class="game-body_leaderboard-content_view-row-index">'+ visibleIndex +'</span><span class="game-body_leaderboard-content_view-row-name">'+ currentRecord.name +'</span><span class="game-body_leaderboard-content_view-row-score">'+ currentRecord.score +'</span></div>';
+			}
+			document.querySelector(".js-highscores").innerHTML = htmlToSend;
+		} else {
+			document.querySelector(".js-highscores").innerHTML = "No record saved yet.";
+		}
+	}
+	
+	function showScoreCount() {
+		if (gameWon == true) { gameScore += 1; }
+		
+		document.querySelector(".js-score").setAttribute("data-score", gameScore);
+	}
+	
+	$(".js-new-game").click(function() {
+		reinitGame(); 
+	});
+	getRecords();
+	$(".js-save").click(function() {
+		var inputTag4PlayerName = $(".js-playerName");
+		
+		var playerName = sanitizeInput(inputTag4PlayerName.val());
+		
+		if(playerName != "") {
+			playerName = playerName.toUpperCase();
+			gamePlayer = playerName;
+
+			saveRecord();
+			getRecords();
+			setPlayerNamesOption();
+		}
+	});
+	$(".js-refresh").click(function() {
+		gameRefreshRequest = true;
+		reinitGame();
+		gameRefreshRequest = false;
 //		refresh();
-	  });
+	});
 
 /*== [FIREBASE -- Alphazet @ Corporo Malala] ==*/
 /*** FIREBASE ***/
@@ -698,24 +873,6 @@ function insertData() {
 	
 	showError(alertString);
 	clearInputs();
-}
-
-function sanitizeInput(str) {
-//	str = str.replace(/[^a-z0-9àáéïíöóüúñü \.,_-]/gim, " ");
-//	str = '(''|[^'])*';
-//	str = \b(ALTER|CREATE|DELETE|DROP|EXECUTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1}\b
-//	str = "('(''|[^']*')|(;)|(\b(ALTER|CREATE|DELETE|DROP|EXECUTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1}\b))";
-
-	str = str.trim();
-	if(/([^\s])/.test(str) == false) {
-		str = "";
-	} else {
-		str = str.replace(/[^\w\s]/gi, '');
-		str = str.replace(/[^A-zÀ-ú\s]/gi, '');
-		str = str.replace(/[`~!@#$%^&*()_|+-=?;:,.<>{}\[\]\\\/]/gi, '');
-	}
-
-	return str;
 }
 
 function showError(str) {

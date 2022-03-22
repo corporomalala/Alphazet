@@ -120,7 +120,7 @@
 					
 						<div class="website-body_footer-front">
 							<label for="chkxForInfoBox" class="website-body_footer-front-button" title="Click here to open info box"><div class="website-body_footer-front-button-wrap">i</div></label>
-							<div class="website-body_footer-front-text">Version 1.2.0</div>
+							<div class="website-body_footer-front-text">Version 1.2.1</div>
 						</div>
 						
 						<div class="website-body_footer-back"><div class="website-body_footer-back-wrap">
@@ -147,6 +147,7 @@
 						<div class="drawing__container">
 						</div>
 						
+						<button class="game-body_score js-score" data-score="0" data-highscore="no" style="cursor: initial !important;"><span class="game-body_score-icon">Score</span></button>
 						<button class="game-body_refresh js-refresh"><span class="game-body_refresh-icon">Refresh</span></button>
 					</div>
 					<div id="result"></div>
@@ -155,6 +156,30 @@
 					<div id="chars" class="chars"></div>
 					<div id="keyboard" class="keyboard"></div>
 				</div>
+				
+				<div class="game-body_leaderboard is-hidden" data-mode="view"><div class="game-body_leaderboard-wrap">
+					<div class="game-body_leaderboard-header"><div class="game-body_leaderboard-header-wrap">
+						Leaderboard
+					</div></div>
+					
+					<div class="game-body_leaderboard-content"><div class="game-body_leaderboard-content-wrap">
+						<div class="game-body_leaderboard-content_view js-highscores">
+						</div>
+						
+						<div class="game-body_leaderboard-content_save">
+							Enter name:
+							<input type="text" class="js-playerName" minlength="3" maxlength="10" list="playerNames" />
+							
+							<datalist id="playerNames" class="js-playerNames">
+							</datalist>
+						</div>
+					</div></div>
+				
+					<div class="game-body_leaderboard-footer"><div class="game-body_leaderboard-footer-wrap">
+						<button class="js-save">Save</button>
+						<button>Close</button>
+					</div></div>
+				</div></div>
 			</section>
 			
 				<div id="modal" class="modal" style="display: none">
@@ -262,7 +287,7 @@
 							<div>If you do not know what this is, please cancel! :)</div>
 
 							<div class="section3-body_android-modal-buttons">
-								<a href="/assets/APKs/alphazet--v1.2.0.apk" class="section3-body_android-modal-button to-confirm js-android-modal-confirm" download>SESAME OPEN!</a>
+								<a href="/assets/APKs/alphazet--v1.2.0.apk" class="section3-body_android-modal-button to-confirm js-android-modal-confirm" download>OPEN SESAME!</a>
 								<button class="section3-body_android-modal-button to-cancel js-android-modal-cancel">CANCEL</button>
 							</div>
 						</div></div>

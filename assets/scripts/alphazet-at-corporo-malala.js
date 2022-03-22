@@ -40,7 +40,8 @@ var defaultGameLanguage = document.querySelector(".js-body").getAttribute("gameL
 	globalGameLanguage = "",
 	gameIsLoaded = false,
 	appCouldBeWebview = false,
-	appDownloadRequest = false;
+	appDownloadRequest = false,
+	gameRefreshRequest = false;
 
 setup()
 function setup() {
@@ -51,26 +52,18 @@ function setup() {
 	testBrowser();
 }
 
+function checkViewPort() {
+	var viewPortCheckPoint = window.matchMedia("(max-width: 700px)");
+	
+	if(viewPortCheckPoint.matches) { return "mobile"; }
+	else { return "laptop"; }
+}
+	
 function focusContainer() {
-//	var scrollableContainer = $(".website");
-	var scrollableContainer = document.querySelector(".website");
-	scrollableContainer.focus();
-	
-	/*
-	var scrollPositionX = 0,
-		scrollPositionY = 0;
-
-	
-	scrollableContainer.addEventListener("scroll", event ==> {
-		scrollPositionX = scrollableContainer.scrollLeft;
-		scrollPositionY = scrollableContainer.scrollTop;
-	}, { passive: true });
-
-
-	scrollableContainer.scrollLeft = 10;
-
-	scrollableContainer.scrollBy(10, 0);
-*/
+	if ((checkViewPort() == "laptop") && (gameRefreshRequest == false)) {
+		var scrollableContainer = document.querySelector(".website");
+		scrollableContainer.focus();
+	}
 }
 
 function setGameLanguage(lang) {
@@ -595,7 +588,9 @@ function getTranslationOfChosenWord() {
 		 reinitGame(); 
 	  });
 	  $(".js-refresh").click(function() {
-		 reinitGame(); 
+		  gameRefreshRequest = true;
+		 reinitGame();
+		 gameRefreshRequest = false;
 //		refresh();
 	  });
 

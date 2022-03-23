@@ -120,7 +120,7 @@
 					
 						<div class="website-body_footer-front">
 							<label for="chkxForInfoBox" class="website-body_footer-front-button" title="Click here to open info box"><div class="website-body_footer-front-button-wrap">i</div></label>
-							<div class="website-body_footer-front-text">Version 1.2.1</div>
+							<div class="website-body_footer-front-text">Version 1.2.2</div>
 						</div>
 						
 						<div class="website-body_footer-back"><div class="website-body_footer-back-wrap">
@@ -147,7 +147,7 @@
 						<div class="drawing__container">
 						</div>
 						
-						<button class="game-body_score js-score" data-score="0" data-highscore="no" style="cursor: initial !important;"><span class="game-body_score-icon">Score</span></button>
+						<button class="game-body_score js-score" data-score="0" data-highscore="no"><span class="game-body_score-icon">Score</span></button>
 						<button class="game-body_refresh js-refresh"><span class="game-body_refresh-icon">Refresh</span></button>
 					</div>
 					<div id="result"></div>
@@ -157,7 +157,7 @@
 					<div id="keyboard" class="keyboard"></div>
 				</div>
 				
-				<div class="game-body_leaderboard is-hidden" data-mode="view"><div class="game-body_leaderboard-wrap">
+				<div class="game-body_leaderboard js-leaderboard is-hidden" data-mode="view"><div class="game-body_leaderboard-wrap">
 					<div class="game-body_leaderboard-header"><div class="game-body_leaderboard-header-wrap">
 						Leaderboard
 					</div></div>
@@ -167,17 +167,24 @@
 						</div>
 						
 						<div class="game-body_leaderboard-content_save">
-							Enter name:
-							<input type="text" class="js-playerName" minlength="3" maxlength="10" list="playerNames" />
-							
-							<datalist id="playerNames" class="js-playerNames">
-							</datalist>
+							<div><p>You scored <span class="js-totalScore"></span> points! <br />Congratulations! </p><br /><br />You belong on the leaderboard, dear! Save your name and see how you ranked!</div>
+							<br /><br />
+						
+							<form>
+								Enter name:
+								<input type="text" class="u-input js-playerName" minlength="3" maxlength="10" list="playerNames" />
+								
+								<datalist id="playerNames" class="js-playerNames">
+								</datalist>
+							</form>
 						</div>
 					</div></div>
 				
-					<div class="game-body_leaderboard-footer"><div class="game-body_leaderboard-footer-wrap">
-						<button class="js-save">Save</button>
-						<button>Close</button>
+					<div class="game-body_leaderboard-menu"><div class="game-body_leaderboard-menu-wrap">
+						<button class="game-body_leaderboard-menu-button js-save">Save</button>
+						<button class="game-body_leaderboard-menu-button js-cancel">Cancel</button>
+						
+						<button class="game-body_leaderboard-menu-button js-close">Close</button>
 					</div></div>
 				</div></div>
 			</section>
@@ -187,6 +194,9 @@
 					<div class="modal__main">
 						<div class="modal__content"></div>
 						<div class="modal__actions">
+						<!--
+							<button class="js-open-highscore">Save Highscore</button>
+							-->
 							<button class="js-new-game">Play New Game</button>
 						</div>
 					</div>

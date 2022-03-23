@@ -43,8 +43,10 @@ var defaultGameLanguage = document.querySelector(".js-body").getAttribute("gameL
 	gameWon = false,
 	gameIsLoaded = false,
 	gameHighscore = 0,
+	gameMinScore = 0,
 	gameHighscoreReached = false,
 	gameRefreshRequest = false,
+	gameLeaderboardRequest = false,
 	appCouldBeWebview = false,
 	appDownloadRequest = false;
 
@@ -265,7 +267,6 @@ $(".js-android-modal-cancel").click(function() {
 /*** END COMPONENTS ***/
 
 /*== [GAME: HANGMAN -- Alphazet @ Corporo Malala] ==*/
-
 	var wordOfCurrentGame = "", translatedWordOfCurrentGame = "";
 	let game = null;
       const MAX_FAULTS = 9;
@@ -365,30 +366,100 @@ const wordList_lingala = [
       }
 
       function gameEndHandler() {
+		  
+		if (gameWon == true) { gameScore += 1; }
+//		  alert("HERE");
+
+		  /*
         const content = game.hasWon()
           ? `Great, you are a winner! <br /><br />You found: <em style='text-decoration: underline;'>"${game.getWord()}"</em>. You seem to know the language; can you add new words to our glossary? Swipe right!`
           : `Oh no, dear! <br /><br />We were looking for: <em style='text-decoration: underline;'>"${game.getWord()}"</em>. It means: <em style='text-decoration: underline;'>"${game.getTranslatedWord()}"</em>.`;
-		  		  
-		  if((gameWon == false) && (gameScore > gameHighscore)) {
+		  */
+		  
+			var content = game.hasWon() ? showModal4Win() : showModal4Loss();
+//		var content = "";
+//		if(gameWon == true) { content = showModal4Win(); }
+//		else { content = showModal4Loss(); }
+// alert(content);	
+//	alert("THERE");
+			
+		  if((gameWon == false) && (gameScore > gameMinScore)) {
 			  showHighScore();
+			  
+			if(gameLeaderboardRequest == true) {
+				alert("HERE");
+				showHighScore();
+				
+				var theLeaderboard = document.querySelector(".js-leaderboard");
+				
+		//		document.querySelector(".js-totalScore");
+				theLeaderboard.setAttribute("data-mode", "save");
+				theLeaderboard.classList.remove("is-hidden");
+			}
 		  }
 		  else {
 			showScoreCount();
-			showModal(content);
+			if(content != "") { showModal(content); }
 		  }
       }
+	  
+function showModal4Win() {
+	var modalText = "";
+	
+	if(gameScore > gameMinScore) {
+		var wordText = gameScore + " word";
+		if(gameScore > 1) { wordText += "s"; }
+		
+		if(gameScore > 5) {
+			modalText += "A crown for you! You found <em style='text-decoration: underline;'>"+ wordText +"</em> in total! <br /><br />You seem to know the language; can you add new words to our glossary? Swipe right!";
+		} else {
+			modalText += "Great, you are a winner! <br />You found: <em style='text-decoration: underline;'>"+ wordOfCurrentGame +"</em>. Swipe right!";
+		}
+	}
+	else {
+		modalText += "Great, you are a winner! <br />You found: <em style='text-decoration: underline;'>"+ wordOfCurrentGame +"</em>.It means: <em style='text-decoration: underline;'>"+ translatedWordOfCurrentGame +"</em>.";
+	}
+	
+	return modalText;
+}
+function showModal4Loss() {
+	var modalText = "";
+	
+//	gameScore = 3;
+	if(gameScore > gameMinScore) {
+		gameLeaderboardRequest = true;
+//		$(".js-new-game").addClass("is-hidden");
+		
+		/*
+		modalText += '<div class="modal__content-formArea"><div><p>An end on a high note: <span>'+ gameScore +'</span> points!</p> <br />You belong on the leaderboard! Save your name, dear!</div>';
+		*/
+		
+		modalText = "";
+		
+		/*
+		modalText += '<br /><form> Enter name: <input type="text" class="u-input js-playerName" minlength="3" maxlength="10" list="playerNames" /><datalist id="playerNames" class="js-playerNames"></datalist></form></div>';
+		*/
+	} else {
+		$(".js-open-highscore").addClass("is-hidden");
+		
+		modalText += "Oh no, dear! <br /><br />We were looking for: <em style='text-decoration: underline;'>"+ wordOfCurrentGame +"</em>. It means: <em style='text-decoration: underline;'>"+ translatedWordOfCurrentGame +"</em>.";
+	}
+	
+	return modalText;
+}
 
-      function initNewGame() {
+function initNewGame() {
 //        const hangman = new Hangman(getRandomWord(), gameEndHandler);
-		const hangman = new Hangman(getRandomWord(), getTranslationOfChosenWord(), gameEndHandler);
-        hideModal();
-        drawGame(hangman);
+	const hangman = new Hangman(getRandomWord(), getTranslationOfChosenWord(), gameEndHandler);
+	hideModal();
+	drawGame(hangman);
 //		drawHangman(9);
 //        showModal("Oh no, dear! <br />We were looking for: <br /><em style='text-decoration: underline;'>'Game Game'</em>.");
-		requestAppDownload();
+//	showModal(showModal4Win());
+	requestAppDownload();
 
-        return hangman;
-      }
+	return hangman;
+}
 	  function refresh() {
 		const hangmanAgain = new Hangman(wordOfCurrentGame, translatedWordOfCurrentGame, gameEndHandler);
         hideModal();
@@ -640,57 +711,65 @@ function getTranslationOfChosenWord() {
         guessLetter(letter);
       });
 	  
-	setupGameHangman();
-	function setupGameHangman() {
-		setupGameHtml();
-	}
-	function setupGameHtml() {
+setupGameHangman();
+function setupGameHangman() {
+	setupGameHtml();
+}
+function setupGameHtml() {
 //		localStorage.setItem("AlphazetHangmanHighScores", null);
 		
-		getGameHighscore();
-		setPlayerNamesOption();
-		getRecords();
-	}
-	function getGameHighscore() {
+	getGameHighscore();
+	setPlayerNamesOption();
+	getRecords();
+}
+function getGameHighscore() {
+	if(gameHighscore == 0) {
 		var dbHangmanRecords = JSON.parse(localStorage.getItem("AlphazetHangmanHighScores"));
-		
+			
 		if(dbHangmanRecords != null) {
 			dbHangmanRecords.sort((a,b) => (a.score < b.score) ? 1: -1);
-			gameHighscore = dbHangmanRecords[0];
+			gameHighscore = dbHangmanRecords[0].score;
+			var minIndex = dbHangmanRecords.length - 1;
+			gameMinScore = dbHangmanRecords[minIndex].score;
 		}
 		else { gameHighscore = 0; }
 	}
-	function setPlayerNamesOption() {
-		var playerNamesTag = document.querySelector(".js-playerNames");
+}
+function setPlayerNamesOption() {
+	var playerNamesTag = document.querySelector(".js-playerNames");
+	
+	var dbHangmanRecords = JSON.parse(localStorage.getItem("AlphazetHangmanHighScores"));
 		
-		var dbHangmanRecords = JSON.parse(localStorage.getItem("AlphazetHangmanHighScores"));
-		
-		if(dbHangmanRecords != null) {
-			var theData = dbHangmanRecords;
+	if(dbHangmanRecords != null) {
+		var theData = dbHangmanRecords;
 			
-			var newListOfNames = "";
-			for(var i = 0; i < theData.length; i++) {
-				var currentName = theData[i].name;
-				if(newListOfNames.includes(currentName)) { }
-				else {
-					if (newListOfNames != "") { newListOfNames += ","; }
-					newListOfNames += currentName;
-				}
+		var newListOfNames = "";
+		for(var i = 0; i < theData.length; i++) {
+			var currentName = theData[i].name;
+			if(newListOfNames.includes(currentName)) { }
+			else {
+				if (newListOfNames != "") { newListOfNames += ","; }
+				newListOfNames += currentName;
 			}
-
-			var newArrOfNames = newListOfNames.split(",");
-			
-			var newTagOptions = "";
-			for(var i = 0; i < newArrOfNames.length; i++) {
-				var item = newArrOfNames[i];
-				if(item != "") {
-					newTagOptions += "<option value='"+ item +"' />";
-				}
-			}
-			playerNamesTag.innerHTML = newTagOptions;
-		} else {
 		}
+
+		var newArrOfNames = newListOfNames.split(",");
+			
+		var newTagOptions = "";
+		for(var i = 0; i < newArrOfNames.length; i++) {
+			var item = newArrOfNames[i];
+			if(item != "") {
+				newTagOptions += "\n<option value='"+ item +"' />";
+			}
+		}
+		playerNamesTag.innerText = newTagOptions;
+//		$(".js-playerNames").innerHTML = newTagOptions;
+//		$(".js-playerNames").val = newTagOptions;
+		
+//		document.querySelector(".js-playerNames").innerHTML = "<option value='TRY' />";
+	} else {
 	}
+}
 	function saveRecord() {
 		var thisHighscoreRecord = [ { game: "AlphazetHangman", name: gamePlayer, score: gameScore } ];
 		var thisNameRecord = [ { gamePlayer } ];
@@ -707,7 +786,10 @@ function getTranslationOfChosenWord() {
 	}
 	
 	function showHighScore() {
-		alert("showHighScore();");
+		if(gameScore > gameMinScore) {
+			document.querySelector(".js-score").setAttribute("data-highscore", "yes");
+			document.querySelector(".js-totalScore").innerHTML = gameScore;
+		}
 	}
 
 	function getRecords() {
@@ -739,9 +821,10 @@ function getTranslationOfChosenWord() {
 	}
 	
 	function showScoreCount() {
-		if (gameWon == true) { gameScore += 1; }
+//		if (gameWon == true) { gameScore += 1; }
 		
 		document.querySelector(".js-score").setAttribute("data-score", gameScore);
+		showHighScore();
 	}
 	
 	$(".js-new-game").click(function() {
@@ -760,7 +843,12 @@ function getTranslationOfChosenWord() {
 			saveRecord();
 			getRecords();
 			setPlayerNamesOption();
+			
+			$(".js-cancel").click();
 		}
+	});
+	$(".js-cancel").click(function() {
+		document.querySelector(".js-leaderboard").setAttribute("data-mode", "view");
 	});
 	$(".js-refresh").click(function() {
 		gameRefreshRequest = true;
@@ -768,6 +856,27 @@ function getTranslationOfChosenWord() {
 		gameRefreshRequest = false;
 //		refresh();
 	});
+	$(".js-open-highscore").click(function() {
+		/*
+		hideModal();
+		showHighScore();
+		
+		var theLeaderboard = document.querySelector(".js-leaderboard");
+		
+//		document.querySelector(".js-totalScore");
+		theLeaderboard.setAttribute("data-mode", "save");
+		theLeaderboard.classList.remove("is-hidden");
+		*/
+	});
+$(".js-score").click(function() {
+	$(".js-leaderboard").removeClass("is-hidden");
+});
+$(".js-close").click(function() {
+	gameLeaderboardRequest = false;
+	$(".js-leaderboard").addClass("is-hidden");
+});
+
+//localStorage.setItem("AlphazetHangmanHighScores", null);
 
 /*== [FIREBASE -- Alphazet @ Corporo Malala] ==*/
 /*** FIREBASE ***/

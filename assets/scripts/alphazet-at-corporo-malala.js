@@ -387,7 +387,7 @@ const wordList_lingala = [
 			  showHighScore();
 			  
 			if(gameLeaderboardRequest == true) {
-				alert("HERE");
+//				alert("HERE");
 				showHighScore();
 				
 				var theLeaderboard = document.querySelector(".js-leaderboard");

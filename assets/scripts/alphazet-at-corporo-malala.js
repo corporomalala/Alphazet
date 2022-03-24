@@ -84,6 +84,7 @@ function setGameLanguage(lang) {
 	document.querySelector(".js-body").setAttribute("gameLanguageAttribute", lang);
 	document.querySelector(".js-glossary-language").value = lang;
 	document.querySelector(".js-glossary-languageText").innerHTML = lang;
+	document.querySelector(".js-leaderboard-language").innerHTML = globalGameLanguage;
 //	getGameLanguage();
 	
 	reinitGame();
@@ -736,7 +737,6 @@ function resetGamePage() {
 			document.querySelector(".js-score").setAttribute("data-score", gameScore);
 			document.querySelector(".js-score").setAttribute("data-highscore", "no");
 			document.querySelector(".js-totalScore").innerHTML = gameScore;
-			document.querySelector(".js-leaderboard-language").innerHTML = globalGameLanguage;
 			
 			gameChangeRequest = false;
 		}

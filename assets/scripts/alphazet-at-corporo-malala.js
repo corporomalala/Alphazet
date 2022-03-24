@@ -42,8 +42,11 @@ var defaultGameLanguage = document.querySelector(".js-body").getAttribute("gameL
 	gameScore = 0,
 	gameWon = false,
 	gameIsLoaded = false,
+	gameIsCompleted = false,
 	gameHighscore = 0,
 	gameMinScore = 0,
+	gameLeaderboardTotal = 10,
+	gameChangeRequest = false,
 	gameHighscoreReached = false,
 	gameRefreshRequest = false,
 	gameLeaderboardRequest = false,
@@ -107,7 +110,12 @@ function getGameLanguage() {
 }
 
 $(".js-gameLanguageButton").click(function() {
+	gameIsCompleted = true;
+	gameChangeRequest = true;
+	
 	setGameLanguage($(this).html().toLowerCase());
+	$(".js-close").click();
+	reinitGame();
 });
 
 window.addEventListener("load", function(event) {
@@ -343,14 +351,17 @@ const wordList_lingala = [
 ];
 	  
 
-      function reinitGame() {
-		  if(gameWon == false) { gameScore = 0; }
-		  gamePlayer = "",
-		  gameWon = false;
-		  
-        game = initNewGame();
-		focusContainer();
-      }
+function reinitGame() {
+	if(gameWon == false) { gameScore = 0; }
+	gamePlayer = "",
+	gameIsCompleted = true,
+	gameWon = false;
+
+	resetGamePage();
+
+	game = initNewGame();
+	focusContainer();
+}
 
       function hideModal() {
         const modal = document.getElementById('modal');
@@ -365,43 +376,27 @@ const wordList_lingala = [
 		setTimeout(() => (modal.style.display = ''), 300);
       }
 
-      function gameEndHandler() {
-		  
-		if (gameWon == true) { gameScore += 1; }
-//		  alert("HERE");
+function gameEndHandler() {
+	gameIsCompleted = true;
+	var content = game.hasWon() ? showModal4Win() : showModal4Loss();
 
-		  /*
-        const content = game.hasWon()
-          ? `Great, you are a winner! <br /><br />You found: <em style='text-decoration: underline;'>"${game.getWord()}"</em>. You seem to know the language; can you add new words to our glossary? Swipe right!`
-          : `Oh no, dear! <br /><br />We were looking for: <em style='text-decoration: underline;'>"${game.getWord()}"</em>. It means: <em style='text-decoration: underline;'>"${game.getTranslatedWord()}"</em>.`;
-		  */
-		  
-			var content = game.hasWon() ? showModal4Win() : showModal4Loss();
-//		var content = "";
-//		if(gameWon == true) { content = showModal4Win(); }
-//		else { content = showModal4Loss(); }
-// alert(content);	
-//	alert("THERE");
+	if (gameWon == true) { gameScore += 1; }
+	showScoreCount();
+	
+	if((gameWon == false) && (gameScore > gameMinScore)) {
 			
-		  if((gameWon == false) && (gameScore > gameMinScore)) {
-			  showHighScore();
-			  
-			if(gameLeaderboardRequest == true) {
-//				alert("HERE");
-				showHighScore();
+		if(gameLeaderboardRequest == true) {
 				
-				var theLeaderboard = document.querySelector(".js-leaderboard");
+			var theLeaderboard = document.querySelector(".js-leaderboard");
 				
-		//		document.querySelector(".js-totalScore");
-				theLeaderboard.setAttribute("data-mode", "save");
-				theLeaderboard.classList.remove("is-hidden");
-			}
-		  }
-		  else {
-			showScoreCount();
-			if(content != "") { showModal(content); }
-		  }
-      }
+			theLeaderboard.setAttribute("data-mode", "save");
+			theLeaderboard.classList.remove("is-hidden");
+		}
+	}
+	else {
+		if(content != "") { showModal(content); }
+	}
+}
 	  
 function showModal4Win() {
 	var modalText = "";
@@ -423,6 +418,9 @@ function showModal4Win() {
 	return modalText;
 }
 function showModal4Loss() {
+	gameIsCompleted = true;
+	gameChangeRequest = true;
+	
 	var modalText = "";
 	
 //	gameScore = 3;
@@ -457,6 +455,8 @@ function initNewGame() {
 //        showModal("Oh no, dear! <br />We were looking for: <br /><em style='text-decoration: underline;'>'Game Game'</em>.");
 //	showModal(showModal4Win());
 	requestAppDownload();
+	resetGamePage();
+
 
 	return hangman;
 }
@@ -503,6 +503,7 @@ function getTranslationOfChosenWord() {
 
       function guessLetter(letter) {
         if (game && !game.isFinished()) {
+			gameIsCompleted = false;
           game.pickedLetter(letter);
           drawGame(game);
         }
@@ -711,16 +712,37 @@ function getTranslationOfChosenWord() {
         guessLetter(letter);
       });
 	  
-setupGameHangman();
-function setupGameHangman() {
-	setupGameHtml();
-}
-function setupGameHtml() {
-//		localStorage.setItem("AlphazetHangmanHighScores", null);
+function resetGamePage() {
+	if(gameIsCompleted == true) {
+
+		gamePlayer = "",
+		gameWon = false,
+		gameIsLoaded = false,
+//		gameIsCompleted = true,
+	//	gameHighscore = 0,
+	//	gameMinScore = 0,
+		gameHighscoreReached = false,
+		gameRefreshRequest = false,
+		gameLeaderboardRequest = false;
 		
-	getGameHighscore();
-	setPlayerNamesOption();
-	getRecords();
+		getGameHighscore();
+		setPlayerNamesOption();
+		getRecords();
+		showScoreCount();
+
+		if(gameChangeRequest == true) {
+			gameScore = 0;
+			
+			document.querySelector(".js-score").setAttribute("data-score", gameScore);
+			document.querySelector(".js-score").setAttribute("data-highscore", "no");
+			document.querySelector(".js-totalScore").innerHTML = gameScore;
+			document.querySelector(".js-leaderboard-language").innerHTML = globalGameLanguage;
+			
+			gameChangeRequest = false;
+		}
+	}
+	
+//		localStorage.setItem("AlphazetHangmanHighScores", null);
 }
 function getGameHighscore() {
 	if(gameHighscore == 0) {
@@ -730,15 +752,28 @@ function getGameHighscore() {
 			dbHangmanRecords.sort((a,b) => (a.score < b.score) ? 1: -1);
 			gameHighscore = dbHangmanRecords[0].score;
 			var minIndex = dbHangmanRecords.length - 1;
-			gameMinScore = dbHangmanRecords[minIndex].score;
+			if(dbHangmanRecords.length > gameLeaderboardTotal) {
+				gameMinScore = dbHangmanRecords[minIndex].score;
+			} else { gameMinScore = 0; }
 		}
 		else { gameHighscore = 0; }
 	}
 }
+function getDBname() {
+	var dbName = null;
+
+	if(globalGameLanguage == "fula") { dbName = "AlphazetFulaHangmanHighScores"; }
+	if(globalGameLanguage == "afrikaans") { dbName = "AlphazetAfrikaansHangmanHighScores"; }
+	if(globalGameLanguage == "lingala") { dbName = "AlphazetLingalaHangmanHighScores"; }
+	
+	return dbName;
+}
 function setPlayerNamesOption() {
 	var playerNamesTag = document.querySelector(".js-playerNames");
-	
-	var dbHangmanRecords = JSON.parse(localStorage.getItem("AlphazetHangmanHighScores"));
+
+	var dbName = getDBname();
+//	var dbHangmanRecords = newLeaderboardDB("GET");
+	var dbHangmanRecords = JSON.parse(localStorage.getItem(dbName));
 		
 	if(dbHangmanRecords != null) {
 		var theData = dbHangmanRecords;
@@ -774,7 +809,9 @@ function setPlayerNamesOption() {
 		var thisHighscoreRecord = [ { game: "AlphazetHangman", name: gamePlayer, score: gameScore } ];
 		var thisNameRecord = [ { gamePlayer } ];
 
-		var dbHangmanRecords = JSON.parse(localStorage.getItem("AlphazetHangmanHighScores"));
+		var dbName = getDBname();
+	//	var dbHangmanRecords = newLeaderboardDB("GET");
+		var dbHangmanRecords = JSON.parse(localStorage.getItem(dbName));
 		
 		if(dbHangmanRecords !== null) {
 			dbHangmanRecords.push(thisHighscoreRecord[0]);
@@ -782,18 +819,12 @@ function setPlayerNamesOption() {
 			dbHangmanRecords = thisHighscoreRecord;
 		}
 		
-		localStorage.setItem("AlphazetHangmanHighScores", JSON.stringify(dbHangmanRecords));
-	}
-	
-	function showHighScore() {
-		if(gameScore > gameMinScore) {
-			document.querySelector(".js-score").setAttribute("data-highscore", "yes");
-			document.querySelector(".js-totalScore").innerHTML = gameScore;
-		}
+		localStorage.setItem(dbName, JSON.stringify(dbHangmanRecords));
 	}
 
 	function getRecords() {
-		var dbHangmanRecords = JSON.parse(localStorage.getItem("AlphazetHangmanHighScores"));
+		var dbName = getDBname();
+		var dbHangmanRecords = JSON.parse(localStorage.getItem(dbName));
 		
 		if(dbHangmanRecords != null) {
 			dbHangmanRecords.sort((a,b) => (a.score < b.score) ? 1: -1);
@@ -824,7 +855,11 @@ function setPlayerNamesOption() {
 //		if (gameWon == true) { gameScore += 1; }
 		
 		document.querySelector(".js-score").setAttribute("data-score", gameScore);
-		showHighScore();
+		
+		if(gameScore > gameMinScore) {
+			document.querySelector(".js-score").setAttribute("data-highscore", "yes");
+			document.querySelector(".js-totalScore").innerHTML = gameScore;
+		}
 	}
 	
 	$(".js-new-game").click(function() {
@@ -859,7 +894,6 @@ function setPlayerNamesOption() {
 	$(".js-open-highscore").click(function() {
 		/*
 		hideModal();
-		showHighScore();
 		
 		var theLeaderboard = document.querySelector(".js-leaderboard");
 		
@@ -874,9 +908,15 @@ $(".js-score").click(function() {
 $(".js-close").click(function() {
 	gameLeaderboardRequest = false;
 	$(".js-leaderboard").addClass("is-hidden");
+		
+	if((gameIsCompleted == true) && (gameChangeRequest == true)) {
+		reinitGame();
+	}
 });
 
-//localStorage.setItem("AlphazetHangmanHighScores", null);
+//localStorage.setItem("AlphazetFulaHangmanHighScores", null);
+//localStorage.setItem("AlphazetAfrikaansHangmanHighScores", null);
+//localStorage.setItem("AlphazetLingalaHangmanHighScores", null);
 
 /*== [FIREBASE -- Alphazet @ Corporo Malala] ==*/
 /*** FIREBASE ***/

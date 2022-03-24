@@ -159,7 +159,7 @@
 				
 				<div class="game-body_leaderboard js-leaderboard is-hidden" data-mode="view"><div class="game-body_leaderboard-wrap">
 					<div class="game-body_leaderboard-header"><div class="game-body_leaderboard-header-wrap">
-						Leaderboard
+						<span class="js-leaderboard-language"></span> Leaderboard
 					</div></div>
 					
 					<div class="game-body_leaderboard-content"><div class="game-body_leaderboard-content-wrap">
@@ -170,7 +170,7 @@
 							<div><p>You scored <span class="js-totalScore"></span> points! <br />Congratulations! </p><br /><br />You belong on the leaderboard, dear! Save your name and see how you ranked!</div>
 							<br /><br />
 						
-							<form>
+							<form class="js-leaderboard-form">
 								Enter name:
 								<input type="text" class="u-input js-playerName" minlength="3" maxlength="10" list="playerNames" />
 								
@@ -304,6 +304,10 @@
 					</div>
 				</section>
 			</section>
+			
+			<script>
+//				document.querySelector("*").remove();
+			</script>
 		</section>
 		
 		<script src="/assets/scripts/alphazet-at-corporo-malala.js" type="module"></script>

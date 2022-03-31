@@ -275,6 +275,9 @@ $(".js-android-modal-cancel").click(function() {
 });
 /*** END COMPONENTS ***/
 
+/*** TEST AREA ***/
+/*** END TEST AREA ***/
+
 /*== [GAME: HANGMAN -- Alphazet @ Corporo Malala] ==*/
 	var wordOfCurrentGame = "", translatedWordOfCurrentGame = "";
 	let game = null;
@@ -825,10 +828,10 @@ function setPlayerNamesOption() {
 	function getRecords() {
 		var dbName = getDBname();
 		var dbHangmanRecords = JSON.parse(localStorage.getItem(dbName));
+		var topscoresHtml = "", highscoresHtml = "";
 		
 		if(dbHangmanRecords != null) {
 			dbHangmanRecords.sort((a,b) => (a.score < b.score) ? 1: -1);
-			var htmlToSend = "";
 			var specialClass = "";
 			
 			var maxRecordsToShow = 10;
@@ -836,18 +839,41 @@ function setPlayerNamesOption() {
 				maxRecordsToShow = dbHangmanRecords.length;
 			}
 
+				var htmlNthChild1 = "", htmlNthChild2 = "", htmlNthChild3 = "";
 			for (var i = 0; i < maxRecordsToShow; i++) {
 				var currentRecord = dbHangmanRecords[i];
 				var visibleIndex = i + 1;
+				var theScoreTag = "";
 				
 				if((gamePlayer == currentRecord.name) && (gameScore == currentRecord.score)) { specialClass = " is-currentScore"; }
 				else { specialClass = ""; }
 				
-				htmlToSend += '<div class="game-body_leaderboard-content_view-row'+ specialClass +'"><span class="game-body_leaderboard-content_view-row-index">'+ visibleIndex +'</span><span class="game-body_leaderboard-content_view-row-name">'+ currentRecord.name +'</span><span class="game-body_leaderboard-content_view-row-score">'+ currentRecord.score +'</span></div>';
+				var rankNthChild = 0;
+				if(visibleIndex <= 3) {
+					rankNthChild++;
+					
+					if(visibleIndex == 1) { rankNthChild = 2; }
+					if(visibleIndex == 2) { rankNthChild = 1; }
+					if(visibleIndex == 3) { rankNthChild = 3; }
+					
+					topscoresHtml = '<div class="game-body_leaderboard-content_view-top-box nthChild-'+ visibleIndex +''+ specialClass +'"><span class="game-body_leaderboard-content_view-top-box-score">'+ currentRecord.score +'</span><span class="game-body_leaderboard-content_view-top-box-name">'+ currentRecord.name +'</span><span class="game-body_leaderboard-content_view-top-box-rank">'+ visibleIndex +'</span></div>'
+					
+					if(rankNthChild == 1) { htmlNthChild1 = topscoresHtml; }
+					if(rankNthChild == 2) { htmlNthChild2 = topscoresHtml; }
+					if(rankNthChild == 3) { htmlNthChild3 = topscoresHtml; }
+				}
+				else {
+					highscoresHtml += '<div class="game-body_leaderboard-content_view-high-row'+ specialClass +'"><span class="game-body_leaderboard-content_view-high-row-index">'+ visibleIndex +'</span><span class="game-body_leaderboard-content_view-high-row-name">'+ currentRecord.name +'</span><span class="game-body_leaderboard-content_view-high-row-score">'+ currentRecord.score +'</span></div>';
+				}
 			}
-			document.querySelector(".js-highscores").innerHTML = htmlToSend;
+			
+			topscoresHtml = htmlNthChild1 + htmlNthChild2 + htmlNthChild3;
+			
+			document.querySelector(".js-topscores").innerHTML = topscoresHtml;
+			document.querySelector(".js-highscores").innerHTML = highscoresHtml;
 		} else {
-			document.querySelector(".js-highscores").innerHTML = "No record saved yet.";
+			document.querySelector(".js-topscores").innerHTML = "";
+			document.querySelector(".js-highscores").innerHTML = "<br />No record saved yet.<br /><br />";
 		}
 	}
 	

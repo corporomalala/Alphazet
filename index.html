@@ -81,7 +81,7 @@
 		<link rel="shortlink" href="https://alphazet.corporomalala.com" />
 	</head>
 
-	<body class="js-body d-scrollContainer pg-app" gameLanguageAttribute="fula" style="background-color: rgb(74, 51, 45);">
+	<body class="js-body d-scrollContainer pg-app" gameLanguageAttribute="fula" nowPlaying="" style="background-color: rgb(74, 51, 45);">
 		<section class="container">
 			
 			<section class="website d-scrollContainer-snap" tabindex="0">
@@ -120,7 +120,7 @@
 					
 						<div class="website-body_footer-front">
 							<label for="chkxForInfoBox" class="website-body_footer-front-button" title="Click here to open info box"><div class="website-body_footer-front-button-wrap">i</div></label>
-							<div class="website-body_footer-front-text">Version 1.2.3</div>
+							<div class="website-body_footer-front-text">Version 1.2.4</div>
 						</div>
 						
 						<div class="website-body_footer-back"><div class="website-body_footer-back-wrap">
@@ -138,7 +138,34 @@
 				</section>
 			</section>
 			
-			<section class="game d-scrollContainer-snap">
+			<section class="dvd d-scrollContainer-snap"><div class="dvd-wrap">
+				<img src="https://alphazet.corporomalala.com/assets/images/placeholder-game-landscape.png" class="dvd-placeholder" />
+				
+				<div class="dvd-content js-dvd-button" goTo="hangman" ><div class="dvd-content-wrap">
+					<header class="dvd-content-header">
+						<span class="dvd-content-header-title nthChild-1">HANGMAN</span>
+						<span class="dvd-content-header-title nthChild-2">PRESS PLAY</span>
+					</header>
+					
+					<img src="https://alphazet.corporomalala.com/assets/images/hangman.png" class="dvd-content-thumbnail" />
+					
+					<footer class="dvd-content-footer">
+						<span class="dvd-content-footer-action nthChild-1">&nbsp; Press Play &nbsp; &nbsp; Press Play &nbsp; &nbsp; Press Play &nbsp; &nbsp; Press Play &nbsp; &nbsp; Press Play &nbsp; </span>
+						<span class="dvd-content-footer-action nthChild-2">&nbsp; HANGMAN &nbsp; &nbsp; HANGMAN &nbsp; &nbsp; HANGMAN &nbsp; &nbsp; HANGMAN &nbsp; &nbsp; HANGMAN &nbsp; </span>
+					</footer>
+				</div></div>
+				
+				
+				<!--
+				<path id="rectangular_path" class="d-rectangularSVG-path" fill="red" d="M30 30 H371 V570 H30 Z" />
+				<text class="d-rectangularSVG-text" lengthAdjust="spacingAndGlyphs">
+					<textPath class="d-rectangularSVG-text-textpath" id="svgTextPathGameHangman" xlink:href="#rectangular_path" textLength="1750">&nbsp; ALPHAZET &nbsp; &nbsp; ALPHAZET &nbsp; &nbsp; ALPHAZET &nbsp; &nbsp; ALPHAZET &nbsp; &nbsp; ALPHAZET &nbsp; </textPath>
+				</text>
+				-->
+			</div></section>
+			
+			
+			<section class="game is-game-hangman d-scrollContainer-snap">			
 				
 			<section class="game-body game-HANGMAN">
 				<div id="hangman">

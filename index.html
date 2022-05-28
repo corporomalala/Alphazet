@@ -69,7 +69,7 @@
 		
 	
 		
-		<link rel="stylesheet" href="assets/stylesheets/alphazet-at-corporo-malala.css" />
+		<link rel="stylesheet" href="https://alphazet.corporomalala.com/assets/stylesheets/alphazet-at-corporo-malala.css" />
 		<!--
 		<link rel="manifest" href="https://alphazet.corporomalala.com/manifest.json" />
 		-->
@@ -81,7 +81,7 @@
 		<link rel="shortlink" href="https://alphazet.corporomalala.com" />
 	</head>
 
-	<body class="js-body d-scrollContainer pg-app" gameLanguageAttribute="fula" nowPlaying="" style="background-color: rgb(74, 51, 45);">
+	<body class="js-body d-scrollContainer pg-app" gameLanguageAttribute="fula" nowPlaying="" appLock="false" style="background-color: rgb(74, 51, 45);">
 		<section class="container">
 			
 			<section class="website d-scrollContainer-snap" tabindex="0">
@@ -120,11 +120,11 @@
 					
 						<div class="website-body_footer-front">
 							<label for="chkxForInfoBox" class="website-body_footer-front-button" title="Click here to open info box"><div class="website-body_footer-front-button-wrap">i</div></label>
-							<div class="website-body_footer-front-text">Version 1.2.4</div>
+							<div class="website-body_footer-front-text">Version 1.3</div>
 						</div>
 						
 						<div class="website-body_footer-back"><div class="website-body_footer-back-wrap">
-							<p class="website-body_footer-back-p">ALPHAZET is a product within the umbrella of CORPORO MALALA.</p>
+							<p class="website-body_footer-back-p">ALPHAZET is a product within the umbrella of CORPORO MALALA. (IG: <a href="https://instagram.com/alphazetacm">@AlphazetACM</a>)</p>
 							
 							<p class="website-body_footer-back-p"><a href="https://book-appointment.intobinary.org">MADAM ELLA</a> brought this into the world as a showcase of how AFRICA can and should leverage the 4th Industrial Revolution to leapgrog.</p>
 							
@@ -132,16 +132,19 @@
 							
 							<p class="website-body_footer-back-p">"Middle Easterns can easily browse the internet in arabic. Websites, softwares, etc -- tech is suited for them! Why not Africans? How do you expect the rural woman to take advantage of the benefits the internet offers, when she must first learn English (or French)? We must bring those languages into the internet and the metaverse!" -- MADAM ELLA</p>
 							
-							<p class="website-body_footer-back-p">ALPHAZET is a solution to bring light to this crucial gap. <a href="https://fb.com/intobinary">INTO BINARY</a> was more than happy to participate and code it all up.</p>
+							<p class="website-body_footer-back-p">ALPHAZET is a solution to bring light to this crucial gap. <a href="intobinary.org">INTO BINARY</a> was more than happy to participate and code it all up.</p>
 						</div></div>
 					</footer>
 				</section>
 			</section>
 			
 			<section class="dvd d-scrollContainer-snap"><div class="dvd-wrap">
+			<!--
 				<img src="https://alphazet.corporomalala.com/assets/images/placeholder-game-landscape.png" class="dvd-placeholder" />
-				
-				<div class="dvd-content js-dvd-button" goTo="hangman" ><div class="dvd-content-wrap">
+				-->
+
+<!--				
+				<div class="dvd-content js-dvd-button" goTo="hangman"><div class="dvd-content-wrap">
 					<header class="dvd-content-header">
 						<span class="dvd-content-header-title nthChild-1">HANGMAN</span>
 						<span class="dvd-content-header-title nthChild-2">PRESS PLAY</span>
@@ -154,7 +157,31 @@
 						<span class="dvd-content-footer-action nthChild-2">&nbsp; HANGMAN &nbsp; &nbsp; HANGMAN &nbsp; &nbsp; HANGMAN &nbsp; &nbsp; HANGMAN &nbsp; &nbsp; HANGMAN &nbsp; </span>
 					</footer>
 				</div></div>
+				-->
 				
+				<!--
+				<div class="dvd-content js-dvd-button" goTo="wordsearch"><div class="dvd-content-wrap">
+					<header class="dvd-content-header">
+						<span class="dvd-content-header-title nthChild-1">Word Search</span>
+						<span class="dvd-content-header-title nthChild-2">PRESS PLAY</span>
+					</header>
+					
+					<img src="https://alphazet.corporomalala.com/assets/images/hangman.png" class="dvd-content-thumbnail" />
+					
+					<footer class="dvd-content-footer">
+						<span class="dvd-content-footer-action nthChild-1">&nbsp; Press Play &nbsp; &nbsp; Press Play &nbsp; &nbsp; Press Play &nbsp; &nbsp; Press Play &nbsp; &nbsp; Press Play &nbsp; </span>
+						<span class="dvd-content-footer-action nthChild-2">&nbsp; Word Search &nbsp; &nbsp; Word Search &nbsp; &nbsp; Word Search &nbsp; &nbsp; Word Search &nbsp; &nbsp; Word Search &nbsp; </span>
+					</footer>
+				</div></div>
+				-->
+
+				<div class="dvd-content js-dvd-button" goTo="hangman"><div class="dvd-content-wrap">
+					Play Hangman
+				</div></div>
+				
+				<div class="dvd-content js-dvd-button" goTo="wordsearch"><div class="dvd-content-wrap">
+					Play Word Search
+				</div></div>
 				
 				<!--
 				<path id="rectangular_path" class="d-rectangularSVG-path" fill="red" d="M30 30 H371 V570 H30 Z" />
@@ -164,9 +191,9 @@
 				-->
 			</div></section>
 			
-			
-			<section class="game is-game-hangman d-scrollContainer-snap">			
-				
+			<section class="game d-scrollContainer-snap">
+				<div class="game-wrap is-game-hangman">
+					
 			<section class="game-body game-HANGMAN">
 				<div id="hangman">
 					<div class="drawing" id="drawing">
@@ -231,18 +258,47 @@
 						</div>
 					</div>
 				</div>
+				</div>
+				
+				<div class="game-wrap is-game-wordsearch">
+					
+			<section class="game-body game-WORDSEARCH">
+				<div class="game-body-header">
+					<h3 class="game-body-header-message">Play Word Search!</h3>
+				
+						<div class="drawing__container">
+						
+					<ul class="ws-words"></ul>
+						</div>
+					
+					
+					<!--
+					<button class="game-body_score js-score" data-score="0" data-highscore="no"><span class="game-body_score-icon">Score</span></button>
+					-->
+					<button class="game-body_lock js-lock"><span class="game-body_lock-icon">Lock</span></button>
+					<button class="game-body_refresh js-refresh"><span class="game-body_refresh-icon">Refresh</span></button>
+				</div>
+				  
+				  <section id="ws-area"></section>
+			</section>
+			
+			<div class="modal2 is-hidden">
+				<div class="modal2-background"></div>
+				<div class="modal2-main">
+						<div class="modal2-content modal__content">Test</div>
+						
+						<div class="modal__actions">
+						<!--
+							<button class="js-open-highscore">Save Highscore</button>
+							-->
+							<button class="js-new-game2">Play New Game</button>
+						</div>
+				</div>
+			</div>
+				</div>
 				
 				<svg class="d-rectangularSVG" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid meet">
 					<path id="rectangular_path" class="d-rectangularSVG-path" fill="none" d="M30 30 H371 V570 H30 Z" />
-
-					<!---
-					<path id="o_path" fill="none" d="
-						 m39.49998,299.99995
-						 a160.50001,267.50085 0 0 1 321.00003,0
-						 a160.50001,267.50085 0 0 1 -321.00003,0 
-						 a160.50001,267.50085 0 0 1 321.00003,0
-						 a160.50001,267.50085 0 0 1 -321.00003,0" />
-					-->
 
 					<text class="d-rectangularSVG-text" lengthAdjust="spacingAndGlyphs">
 						<textPath class="d-rectangularSVG-text-textpath is-fula" id="svgTextPathFula" xlink:href="#rectangular_path" textLength="1750">&nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA &nbsp; ALPHAZET &nbsp; FULA </textPath>
@@ -258,7 +314,6 @@
 					<br />
 					<br />
 					<a href="https://translate.google.com/contribute" target="_blank">https://translate.google.com/contribute</a>
-					
 					<div class="section3-body-glossary">
 						<form class="section3-body-glossary-form js-form">
 							<div>
@@ -332,14 +387,17 @@
 							</div>
 						</div></div>
 					</div>
+					
 				</section>
+
+				<div class="splash">
+					<p class="splash-text">The word search game was built for laptops.</p>
+					<br /><br />
+					<div class="splash-button js-splash-button">Go back!</div>
+				</div>
 			</section>
-			
-			<script>
-//				document.querySelector("*").remove();
-			</script>
 		</section>
 		
-		<script src="assets/scripts/alphazet-at-corporo-malala.js" type="module"></script>
+		<script src="https://alphazet.corporomalala.com/assets/scripts/alphazet-at-corporo-malala.js" type="module"></script>
 	</body>
 </html>

@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en" class="nope-js" manifest="">
 	<head>
@@ -123,7 +125,7 @@
 						</div>
 						
 						<div class="website-body_footer-back"><div class="website-body_footer-back-wrap">
-							<p class="website-body_footer-back-p">ALPHAZET is a product within the umbrella of CORPORO MALALA. (IG: <a href="https://instagram.com/alphazetacm">@AlphazetACM</a>)</p>
+							<p class="website-body_footer-back-p">ALPHAZET is a product within the umbrella of CORPORO MALALA. (IG: <a href="https://instagram.com/alphazet_acm">@Alphazet_ACM</a>)</p>
 							
 							<p class="website-body_footer-back-p"><a href="https://book-appointment.intobinary.org">MADAM ELLA</a> brought this into the world as a showcase of how AFRICA can and should leverage the 4th Industrial Revolution to leapgrog.</p>
 							
@@ -400,35 +402,21 @@
 				<section class="books-body">
 					<p>Library</p>
 					
-					<div class="books-body_library"><ul class="books-body_library-list">
+					<div class="books-body_library"><ul class="books-body_library-list">{% for file in site.data.books %}{% for data in file %}
 						<li class="books-body_library-list-item"><div class="books-body_library-book">
 							<div class="books-body_library-book-side1">
-								<h5 class="books-body_library-book-title">"Teach Yourself Afrikaans"</h5>
-								<h5 class="books-body_library-book-author">by Lydia McDermott</h5>
+								<h5 class="books-body_library-book-title">"{% for bookData in data[1] %}{{ bookData.title }}{% endfor %}"</h5>
+								<h5 class="books-body_library-book-author">by {% for bookData in data[1] %}{{ bookData.author }}{% endfor %}</h5>
 								
 								<div class="books-body_library-book-download">
-									<a href="assets/books/pdf/Teach Yourself Complete Afrikaans (Lydia McDermott) (alphazet.corporomalala.com).pdf" class="books-body_library-book-download-button" download>Download</a>
-									<span class="books-body_library-book-download-details">PDF: 55.36 MB</span>
+									<a href="assets/books/pdf/{% for bookData in data[1] %}{{ bookData.file }}{% endfor %}" class="books-body_library-book-download-button" download>Download</a>
+									<span class="books-body_library-book-download-details">PDF: {% for bookData in data[1] %}{{ bookData.space }}{% endfor %}</span>
 								</div>
 							</div>
 							<div class="books-body_library-book-side2">
-								<img src="assets/images/books/book-afrikaans.png" class="books-body_library-book-img" alt="Book Cover of 'Teach Yourself Afrikaans' by 'Lydia McDermott'" />
+								<img src="assets/images/books/{% for bookData in data[1] %}{{ bookData.image }}{% endfor %}" class="books-body_library-book-img" alt="Book Cover of '{% for bookData in data[1] %}{{ bookData.title }}{% endfor %}' by '{% for bookData in data[1] %}{{ bookData.author }}{% endfor %}'" />
 							</div>
-						</div></li>
-						<li class="books-body_library-list-item"><div class="books-body_library-book">
-							<div class="books-body_library-book-side1">
-								<h5 class="books-body_library-book-title">"Lingala-English, English-Lingala: Dictionary and Phrasebook"</h5>
-								<h5 class="books-body_library-book-author">by Thomas A. Akowuah</h5>
-								
-								<div class="books-body_library-book-download">
-									<a href="assets/books/pdf/Lingala-English, English-Lingala Dictionary and Phrasebook (Thomas A. Akowuah) (alphazet.corporomalala.org).pdf" class="books-body_library-book-download-button" download>Download</a>
-									<span class="books-body_library-book-download-details">PDF: 15.86 MB</span>
-								</div>
-							</div>
-							<div class="books-body_library-book-side2">
-								<img src="assets/images/books/book-lingala.png" class="books-body_library-book-img" alt="Book Cover of 'Lingala-English, English-Lingala: Dictionary and Phrasebook' by 'Thomas A. Akowuah'" />
-							</div>
-						</div></li>
+						</div></li>{% endfor %}{% endfor %}
 					</ul></div>
 					
 					<div class="books-body_footer">

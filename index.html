@@ -399,9 +399,9 @@
 			<section class="books d-scrollContainer-snap">
 				<section class="books-body">
 					<p>Library</p>
-					<span>PS: We broke the site on April 11, terrible timing! We're on it!</span>
 					
-					<div class="books-body_library"><ul class="books-body_library-list">{% for file in site.data.books %}{% for data in file %}
+					<div class="books-body_library"><ul class="books-body_library-list">
+					<span>PS: We broke the site on April 11, terrible timing! We're on it!</span>{% for file in site.data.books %}{% for data in file %}
 						<li class="books-body_library-list-item"><div class="books-body_library-book">
 							<div class="books-body_library-book-side1">
 								<h5 class="books-body_library-book-title">"{% for bookData in data[1] %}{{ bookData.title }}{% endfor %}"</h5>
